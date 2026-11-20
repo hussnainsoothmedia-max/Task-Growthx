@@ -1,0 +1,118 @@
+<section class="hero" id="hero" aria-labelledby="hero-h">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow rv">AI automation for dental clinics</span>
+        <h1 class="display-xl rv" id="hero-h">We build intelligent systems that keep your dental chairs full.</h1>
+        <p class="body-lg muted rv">We automate patient booking, reminders, recalls and follow-ups, so your front desk can focus on the patients in the room.</p>
+        <div class="cta-row rv">
+          <a class="btn btn--primary" href="#contact">Let's talk <span class="arr" aria-hidden="true">&rarr;</span></a>
+          <a class="btn btn--secondary" href="#services">Explore our services</a>
+        </div>
+      </div>
+
+      <figure class="hero-visual rv" style="margin:0">
+        <div class="card card--mockup flow-card">
+          <div class="flow-bar">
+            <div class="title"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Booking request → confirmed appointment</span></div>
+            <span class="live">Example workflow</span>
+          </div>
+          <div class="flow-canvas">
+            <svg viewBox="0 0 600 350" role="img" aria-labelledby="wf-title wf-desc">
+              <title id="wf-title">Example dental booking workflow</title>
+              <desc id="wf-desc">A booking request from the website or WhatsApp goes to an AI agent that reads the treatment and urgency. Urgent cases get a same-day slot held, the appointment is written to the practice software and reception is alerted. Routine requests receive three open slots to choose from.</desc>
+              <!-- edges -->
+              <path class="wf-edge" d="M170 69 L225 69"/>
+              <path class="wf-edge" d="M375 69 L430 69"/>
+              <path class="wf-edge" d="M505 98 L505 160"/>
+              <path class="wf-edge" d="M470 98 C470 132 300 124 300 160"/>
+              <path class="wf-edge" d="M505 218 L505 280"/>
+              <path class="wf-edge" d="M430 309 L375 309"/>
+              <!-- data pulses -->
+              <path class="wf-pulse" d="M170 69 L225 69" pathLength="400"/>
+              <path class="wf-pulse d1" d="M375 69 L430 69" pathLength="400"/>
+              <path class="wf-pulse d2" d="M505 98 L505 160" pathLength="400"/>
+              <path class="wf-pulse d3" d="M505 218 L505 280" pathLength="400"/>
+              <path class="wf-pulse d4" d="M430 309 L375 309" pathLength="400"/>
+              <text class="wf-label" x="514" y="134">yes</text>
+              <text class="wf-label" x="352" y="122">no</text>
+
+              <g class="wf-node" transform="translate(20 40)">
+                <rect class="box" width="150" height="58" rx="8"/>
+                <rect class="ic" x="12" y="17" width="24" height="24" rx="5"/><text class="ic-t" x="24" y="33" text-anchor="middle">&#x2192;</text>
+                <text class="t" x="46" y="26">New booking</text>
+                <text class="s" x="46" y="43">web · whatsapp</text>
+              </g>
+              <g class="wf-node is-ai" transform="translate(225 40)">
+                <rect class="box" width="150" height="58" rx="8"/>
+                <rect class="ic" x="12" y="17" width="24" height="24" rx="5"/><text class="ic-t" x="24" y="33" text-anchor="middle">&#x2726;</text>
+                <text class="t" x="46" y="26">AI agent</text>
+                <text class="s" x="46" y="43">triage request</text>
+                <g class="wf-badge" transform="translate(116 -8)"><rect width="24" height="16" rx="4"/><text x="12" y="11.5" text-anchor="middle">AI</text></g>
+              </g>
+              <g class="wf-node" transform="translate(430 40)">
+                <rect class="box" width="150" height="58" rx="8"/>
+                <rect class="ic" x="12" y="17" width="24" height="24" rx="5"/><text class="ic-t" x="24" y="33" text-anchor="middle">?</text>
+                <text class="t" x="46" y="26">Urgent?</text>
+                <text class="s" x="46" y="43">pain · swelling</text>
+              </g>
+              <g class="wf-node" transform="translate(225 160)">
+                <rect class="box" width="150" height="58" rx="8"/>
+                <rect class="ic" x="12" y="17" width="24" height="24" rx="5"/><text class="ic-t" x="24" y="33" text-anchor="middle">#</text>
+                <text class="t" x="46" y="26">Offer 3 slots</text>
+                <text class="s" x="46" y="43">calendar.free()</text>
+              </g>
+              <g class="wf-node" transform="translate(430 160)">
+                <rect class="box" width="150" height="58" rx="8"/>
+                <rect class="ic" x="12" y="17" width="24" height="24" rx="5"/><text class="ic-t" x="24" y="33" text-anchor="middle">!</text>
+                <text class="t" x="46" y="26">Same-day slot</text>
+                <text class="s" x="46" y="43">emergency hold</text>
+              </g>
+              <g class="wf-node" transform="translate(430 280)">
+                <rect class="box" width="150" height="58" rx="8"/>
+                <rect class="ic" x="12" y="17" width="24" height="24" rx="5"/><text class="ic-t" x="24" y="33" text-anchor="middle">+</text>
+                <text class="t" x="46" y="26">Book in PMS</text>
+                <text class="s" x="46" y="43">pms.create()</text>
+              </g>
+              <g class="wf-node" transform="translate(225 280)">
+                <rect class="box" width="150" height="58" rx="8"/>
+                <rect class="ic" x="12" y="17" width="24" height="24" rx="5"/><text class="ic-t" x="24" y="33" text-anchor="middle">@</text>
+                <text class="t" x="46" y="26">Alert reception</text>
+                <text class="s" x="46" y="43">#front-desk</text>
+              </g>
+              <!-- ports -->
+              <g>
+                <circle class="wf-port" cx="170" cy="69" r="3.5"/><circle class="wf-port" cx="225" cy="69" r="3.5"/>
+                <circle class="wf-port" cx="375" cy="69" r="3.5"/><circle class="wf-port" cx="430" cy="69" r="3.5"/>
+                <circle class="wf-port" cx="505" cy="98" r="3.5"/><circle class="wf-port" cx="505" cy="160" r="3.5"/>
+                <circle class="wf-port" cx="470" cy="98" r="3.5"/><circle class="wf-port" cx="300" cy="160" r="3.5"/>
+                <circle class="wf-port" cx="505" cy="218" r="3.5"/><circle class="wf-port" cx="505" cy="280" r="3.5"/>
+                <circle class="wf-port" cx="430" cy="309" r="3.5"/><circle class="wf-port" cx="375" cy="309" r="3.5"/>
+              </g>
+              <!-- side note -->
+              <g transform="translate(20 160)">
+                <text class="wf-label" x="0" y="12">Runs on n8n</text>
+                <text class="wf-label" x="0" y="28">Clinical questions</text>
+                <text class="wf-label" x="0" y="44">go to your staff</text>
+              </g>
+            </svg>
+          </div>
+          <div class="flow-log" aria-label="Example run log">
+            <div class="head"><span>Example run</span><span>sample data</span></div>
+            <div class="row"><span>21:14:02</span><b>Booking request from clinic website</b><em>trigger</em></div>
+            <div class="row"><span>21:14:04</span><b>AI agent: check-up, prefers mornings</b><em>not urgent</em></div>
+            <div class="row"><span>21:14:05</span><b>Three morning slots sent on WhatsApp</b><em>whatsapp</em></div>
+            <div class="row"><span>21:16:40</span><b>Patient picked Tue 09:30, booked</b><em>done</em></div>
+          </div>
+        </div>
+      </figure>
+    </div>
+
+    <div class="facts">
+      <div><b>Built on n8n and open APIs</b><span>Your clinic owns the workflows. No black boxes.</span></div>
+      <div><b>Works with your practice software</b><span>We connect your schedule, phones and messages instead of replacing them.</span></div>
+      <div><b>Your team stays in control</b><span>Anything clinical or payment-related goes to a person.</span></div>
+      <div><b>Tested before patients see it</b><span>Error handling and alerts in every build.</span></div>
+    </div>
+  </div>
+</section>
