@@ -5,21 +5,22 @@ import Footer from "../../components/Footer.astro";
 import { caseStudies, type CaseStudy } from "../../data/caseStudies";
 import { CAL_URL } from "../../config";
 import { breadcrumbs, caseStudyArticle, webPage } from "../../data/schema";
-import { SITE_URL } from "../../data/site";
+import { SITE_URL, WHATSAPP_URL } from "../../data/site";
+import "../../styles/casestudy.css";
 
 export function getStaticPaths() {
-  return caseStudies.map((cs, i) => ({
+  return caseStudies.map((cs) => ({
     params: { slug: cs.slug },
-    props: { cs, next: caseStudies[(i + 1) % caseStudies.length] },
+    props: { cs, others: caseStudies.filter((c) => c.slug !== cs.slug) },
   }));
 }
 
 interface Props {
   cs: CaseStudy;
-  next: CaseStudy;
+  others: CaseStudy[];
 }
 
-const { cs, next } = Astro.props;
+const { cs, others } = Astro.props;
 const pageTitle = `${cs.title} · Case study · Task GrowthX`;
 const url = `${SITE_URL}/work/${cs.slug}/`;
 const schema = [
@@ -36,120 +37,175 @@ const schema = [
 <Layout title={pageTitle} description={cs.lead} ogTitle={`${cs.title} · Task GrowthX`} ogType="article" schema={schema}>
   <a class="skip" href="#main">Skip to content</a>
   <Header base="/" />
-  <main id="main" class="cs">
-    <section class="cs-hero" aria-labelledby="cs-h">
-      <div class="wrap">
-        <div class="project-meta">
-          <span class="badge badge--line">Demo build</span>
-          <span class="badge badge--neutral">{cs.clinic}</span>
+  <main id="main" class="csx">
+    <!-- Hero -->
+    <section class="csx-hero" aria-labelledby="cs-h">
+      <div class="wrap csx-hero-grid">
+        <div class="csx-hero-copy">
+          <div class="project-meta">
+            <span class="badge badge--line">Case study · Demo build</span>
+            <span class="badge badge--neutral">{cs.clinic}</span>
+          </div>
+          <h1 class="display-lg" id="cs-h">{cs.title}</h1>
+          <p class="body-lg muted">{cs.lead}</p>
+          <div class="cta-row">
+            <a class="btn btn--primary" href={CAL_URL}>Build this for my clinic <span class="arr" aria-hidden="true">&rarr;</span></a>
+            <a class="btn btn--secondary" href="#workflow">See the workflow</a>
+          </div>
         </div>
-        <h1 class="display-lg" id="cs-h">{cs.title}</h1>
-        <p class="body-lg muted cs-lead">{cs.lead}</p>
-        <dl class="cs-facts">
-          <div><dt>Clinic type</dt><dd>{cs.clinic}</dd></div>
-          <div><dt>Channels</dt><dd>{cs.channels}</dd></div>
-          <div><dt>Built on</dt><dd>n8n</dd></div>
-          <div><dt>Typical build time</dt><dd>{cs.buildTime}</dd></div>
-        </dl>
+        <aside class="csx-facts" aria-label="Project facts">
+          <p class="csx-facts-title">Project at a glance</p>
+          <dl>
+            <div><dt>Clinic type</dt><dd>{cs.clinic}</dd></div>
+            <div><dt>Channels</dt><dd>{cs.channels}</dd></div>
+            <div><dt>Built on</dt><dd>n8n</dd></div>
+            <div><dt>Typical build time</dt><dd>{cs.buildTime}</dd></div>
+            <div><dt>Workflow steps</dt><dd>{cs.steps.length}</dd></div>
+          </dl>
+        </aside>
       </div>
     </section>
 
-    <section class="cs-shot-wrap" aria-label="Workflow">
+    <!-- Workflow image -->
+    <section class="csx-shot-wrap" aria-label="Workflow diagram">
       <div class="wrap">
-        <figure class="cs-shot">
-          <img src={cs.image} alt={cs.imageAlt} width="1200" height="560" />
-          <figcaption class="mono">The n8n workflow behind this build</figcaption>
+        <figure class="csx-shot">
+          <img src={cs.image} alt={cs.imageAlt} width="1200" height="560" fetchpriority="high" />
         </figure>
       </div>
     </section>
 
-    <section class="section cs-block" aria-labelledby="cs-problem">
-      <div class="wrap cs-grid">
-        <div class="cs-side">
-          <span class="eyebrow">01 · The challenge</span>
-          <h2 class="display-md" id="cs-problem">Where the time goes</h2>
+    <!-- Challenge -->
+    <section class="section csx-block" aria-labelledby="ch-h">
+      <div class="wrap csx-grid">
+        <div class="csx-side">
+          <span class="csx-step-label">01 · The challenge</span>
+          <h2 class="display-md" id="ch-h">Where the time goes</h2>
         </div>
-        <div class="cs-main">
-          {cs.problem.map((p) => <p class="body-lg">{p}</p>)}
-          <ul class="cs-pains">
-            {cs.painPoints.map((p) => <li>{p}</li>)}
+        <div class="csx-main">
+          {cs.problem.map((p, i) => <p class={i === 0 ? "body-lg" : "muted"}>{p}</p>)}
+          <ul class="csx-pains">
+            {cs.painPoints.map((p) => (
+              <li>
+                <span class="csx-x" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17" /></svg></span>
+                {p}
+              </li>
+            ))}
           </ul>
         </div>
       </div>
     </section>
 
-    <section class="section cs-block" aria-labelledby="cs-flow">
-      <div class="wrap cs-grid">
-        <div class="cs-side">
-          <span class="eyebrow">02 · The workflow</span>
-          <h2 class="display-md" id="cs-flow">How it runs, step by step</h2>
+    <!-- Workflow timeline -->
+    <section class="section csx-block csx-flow" id="workflow" aria-labelledby="wf-h">
+      <div class="wrap csx-grid">
+        <div class="csx-side csx-side--sticky">
+          <span class="csx-step-label">02 · The workflow</span>
+          <h2 class="display-md" id="wf-h">How it runs, step by step</h2>
           <p class="muted">{cs.solution}</p>
         </div>
-        <ol class="cs-steps">
-          {cs.steps.map((s) => (
+        <ol class="csx-timeline">
+          {cs.steps.map((s, i) => (
             <li>
-              <div class="cs-step-head">
-                <h3>{s.title}</h3>
-                <span class="mono cs-node">{s.node}</span>
+              <span class="csx-dot" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+              <div class="csx-step">
+                <div class="csx-step-head">
+                  <h3>{s.title}</h3>
+                  <span class="csx-node mono">{s.node}</span>
+                </div>
+                <p>{s.text}</p>
               </div>
-              <p>{s.text}</p>
             </li>
           ))}
         </ol>
       </div>
     </section>
 
-    <section class="section cs-block" aria-labelledby="cs-change">
-      <div class="wrap cs-grid">
-        <div class="cs-side">
-          <span class="eyebrow">03 · What changes</span>
-          <h2 class="display-md" id="cs-change">Before and after</h2>
-        </div>
-        <div class="cs-main">
-          <div class="cs-ba">
-            <div class="cs-ba-col">
-              <h3>Before</h3>
-              <ul>{cs.before.map((b) => <li>{b}</li>)}</ul>
-            </div>
-            <div class="cs-ba-col cs-ba-col--after">
-              <h3>After</h3>
-              <ul>{cs.after.map((a) => <li>{a}</li>)}</ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section cs-block" aria-labelledby="cs-tools">
-      <div class="wrap cs-grid">
-        <div class="cs-side">
-          <span class="eyebrow">04 · Stack and safeguards</span>
-          <h2 class="display-md" id="cs-tools">Built carefully</h2>
-        </div>
-        <div class="cs-main">
-          <h3 class="cs-sub">Tools</h3>
-          <ul class="cs-tools">{cs.tools.map((t) => <li class="chip">{t}</li>)}</ul>
-          <h3 class="cs-sub">Safeguards</h3>
-          <ul class="cs-safe">{cs.safeguards.map((s) => <li>{s}</li>)}</ul>
-          <p class="demo-note">This is a demonstration project built to show our approach. It is not presented as a client result.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="cs-cta" style="padding-top:0">
+    <!-- Before / after -->
+    <section class="section csx-block" aria-labelledby="ba-h">
       <div class="wrap">
-        <div class="cs-cta">
-          <div>
-            <span class="eyebrow">Book a discovery call</span>
-            <h2 class="display-md" id="cs-cta">Want this running in your clinic?</h2>
-            <p class="body-lg muted">In 30 minutes we map one workflow worth automating and show you a live build.</p>
-          </div>
-          <a class="btn btn--primary" href={CAL_URL}>Book a discovery call <span class="arr" aria-hidden="true">&rarr;</span></a>
+        <div class="csx-head">
+          <span class="csx-step-label">03 · What changes</span>
+          <h2 class="display-md" id="ba-h">Before and after</h2>
         </div>
-        <a class="cs-next" href={`/work/${next.slug}/`}>
-          <span class="mono">Next case study</span>
-          <span class="cs-next-title">{next.title} <span class="arr" aria-hidden="true">&rarr;</span></span>
-        </a>
+        <div class="csx-ba">
+          <div class="csx-ba-col">
+            <p class="csx-ba-title">Before</p>
+            <ul>{cs.before.map((b) => <li>{b}</li>)}</ul>
+          </div>
+          <span class="csx-ba-arrow" aria-hidden="true">&rarr;</span>
+          <div class="csx-ba-col csx-ba-col--after">
+            <p class="csx-ba-title">After</p>
+            <ul>{cs.after.map((a) => <li>{a}</li>)}</ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stack + safeguards -->
+    <section class="section csx-block" aria-labelledby="st-h">
+      <div class="wrap">
+        <div class="csx-head">
+          <span class="csx-step-label">04 · Stack and safeguards</span>
+          <h2 class="display-md" id="st-h">Built carefully</h2>
+        </div>
+        <div class="csx-stack">
+          <div class="csx-card">
+            <h3>Tools</h3>
+            <ul class="csx-tools">{cs.tools.map((t) => <li class="chip">{t}</li>)}</ul>
+          </div>
+          <div class="csx-card">
+            <h3>Safeguards</h3>
+            <ul class="csx-safe">
+              {cs.safeguards.map((s) => (
+                <li>
+                  <span class="csx-shield" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9v-5l7-3ZM9 12l2 2 4-4" /></svg></span>
+                  {s}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <p class="demo-note">This is a demonstration project built to show our approach. It is not presented as a client result.</p>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section" style="padding-top:0">
+      <div class="wrap">
+        <div class="csx-cta">
+          <div>
+            <h2 class="display-md">Want this running in your clinic?</h2>
+            <p>In a free 30-minute call we map this workflow to your tools and show you a live build.</p>
+          </div>
+          <div class="csx-cta-actions">
+            <a class="csx-cta-btn" href={CAL_URL}>Book a discovery call <span class="arr" aria-hidden="true">&rarr;</span></a>
+            {WHATSAPP_URL && <a class="csx-cta-link" href={WHATSAPP_URL} target="_blank" rel="noopener">or message on WhatsApp</a>}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- More case studies -->
+    <section class="section" style="padding-top:0" aria-labelledby="more-h">
+      <div class="wrap">
+        <div class="csx-head csx-head--split">
+          <h2 class="card-title" id="more-h">More case studies</h2>
+          <a class="csx-link" href="/work/">View all work <span class="arr" aria-hidden="true">&rarr;</span></a>
+        </div>
+        <div class="csx-more">
+          {others.map((o) => (
+            <a class="csx-more-card" href={`/work/${o.slug}/`}>
+              <img src={o.image} alt="" width="1200" height="560" loading="lazy" decoding="async" />
+              <div>
+                <span class="badge badge--neutral">{o.clinic}</span>
+                <h3>{o.title}</h3>
+                <p>{o.lead}</p>
+                <span class="csx-link">Read case study <span class="arr" aria-hidden="true">&rarr;</span></span>
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
     </section>
   </main>

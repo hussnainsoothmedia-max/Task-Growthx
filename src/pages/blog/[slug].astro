@@ -5,21 +5,32 @@ import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { IMG_VERSION, formatDate, getPosts, readingTime } from "../../data/blog";
 import { ORG_ID, PERSON_ID, WEBSITE_ID, breadcrumbs, webPage } from "../../data/schema";
-import { BUSINESS, SITE_URL } from "../../data/site";
+import { BUSINESS, SITE_URL, WHATSAPP_URL } from "../../data/site";
 import { CAL_URL } from "../../config";
+import "../../styles/blogpost.css";
 
 export async function getStaticPaths() {
   const posts = await getPosts();
-  return posts.map((post, i) => ({
+  return posts.map((post) => ({
     params: { slug: post.id },
-    props: { post, next: posts[i + 1] ?? null },
+    props: { post, related: posts.filter((p) => p.id !== post.id).slice(0, 3) },
   }));
 }
 
-const { post, next } = Astro.props;
-const { Content } = await render(post);
+const { post, related } = Astro.props;
+const { Content, headings } = await render(post);
 const url = `${SITE_URL}/blog/${post.id}/`;
 const d = post.data;
+const toc = headings.filter((h) => h.depth === 2);
+const img = (src?: string) => (src ? `${src}?v=${IMG_VERSION}` : undefined);
+
+const enc = encodeURIComponent;
+const share = {
+  linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${enc(url)}`,
+  whatsapp: `https://wa.me/?text=${enc(`${d.title} ${url}`)}`,
+  x: `https://twitter.com/intent/tweet?url=${enc(url)}&text=${enc(d.title)}`,
+};
+
 const schema = [
   webPage(url, d.title, d.description),
   {
@@ -45,56 +56,181 @@ const schema = [
 ];
 ---
 
-<Layout title={`${d.title} · Task GrowthX`} description={d.description} ogType="article" schema={schema} image={d.image && `${d.image}?v=${IMG_VERSION}`} imageAlt={d.imageAlt}>
+<Layout title={`${d.title} · Task GrowthX`} description={d.description} ogType="article" schema={schema} image={img(d.image)} imageAlt={d.imageAlt}>
   <a class="skip" href="#main">Skip to content</a>
+  <div class="bp-progress" aria-hidden="true"><b id="bp-bar"></b></div>
   <Header base="/" />
   <main id="main">
-    <article class="post">
-      <header class="cs-hero">
-        <div class="wrap post-wrap">
-          <div class="post-meta mono">
-            <time datetime={d.date.toISOString()}>{formatDate(d.date)}</time>
-            <span>· {readingTime(post.body)} min read</span>
-            <span>· {BUSINESS.founder}</span>
+    <article>
+      <!-- Hero -->
+      <header class="bp-hero">
+        <div class="wrap">
+          <div class="bp-hero-inner">
+            {d.tags.length > 0 && <div class="bp-tags">{d.tags.map((t) => <span class="bp-tag">{t}</span>)}</div>}
+            <h1 class="display-lg">{d.title}</h1>
+            <p class="body-lg muted">{d.description}</p>
+            <div class="bp-byline">
+              <span class="bp-author">
+                <img src="/images/hussnain.png" alt="" width="36" height="36" />
+                {BUSINESS.founder}
+              </span>
+              <span class="sep" aria-hidden="true"></span>
+              <time datetime={d.date.toISOString()}>{formatDate(d.date)}</time>
+              <span class="sep" aria-hidden="true"></span>
+              <span>{readingTime(post.body)} min read</span>
+            </div>
           </div>
-          <h1 class="display-lg">{d.title}</h1>
-          <p class="body-lg muted">{d.description}</p>
-          {d.tags.length > 0 && <div class="post-tags">{d.tags.map((t) => <span class="badge badge--neutral">{t}</span>)}</div>}
         </div>
       </header>
+
       {d.image && (
-        <div class="wrap post-wrap">
-          <figure class="post-hero-img">
-            <img src={`${d.image}?v=${IMG_VERSION}`} alt={d.imageAlt} width="1200" height="630" fetchpriority="high" />
+        <div class="wrap">
+          <figure class="bp-cover" style="margin:0 auto">
+            <img src={img(d.image)} alt={d.imageAlt} width="1200" height="630" fetchpriority="high" />
           </figure>
         </div>
       )}
-      <div class="wrap post-wrap">
-        <div class="post-body prose">
-          <Content />
+
+      <!-- Body -->
+      <div class="wrap">
+        <div class="bp-layout">
+          <aside class="bp-aside" aria-label="Article tools">
+            {toc.length > 1 && (
+              <nav class="bp-toc" aria-label="On this page">
+                <p class="bp-aside-title">On this page</p>
+                <ol>{toc.map((h) => <li><a href={`#${h.slug}`} data-toc={h.slug}>{h.text}</a></li>)}</ol>
+              </nav>
+            )}
+            <div class="bp-share">
+              <p class="bp-aside-title">Share</p>
+              <ul>
+                <li>
+                  <a href={share.linkedin} target="_blank" rel="noopener" aria-label="Share on LinkedIn">
+                    <svg viewBox="0 0 24 24"><path d="M6.5 9.5v8M6.5 6.5v.01M10.5 17.5v-4.5a2.5 2.5 0 0 1 5 0v4.5M10.5 9.5v8" /></svg>
+                  </a>
+                </li>
+                <li>
+                  <a href={share.whatsapp} target="_blank" rel="noopener" aria-label="Share on WhatsApp">
+                    <svg viewBox="0 0 24 24"><path d="M4 20l1.3-4A8 8 0 1 1 8.2 18.8L4 20Z" /></svg>
+                  </a>
+                </li>
+                <li>
+                  <a href={share.x} target="_blank" rel="noopener" aria-label="Share on X">
+                    <svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" /></svg>
+                  </a>
+                </li>
+                <li>
+                  <button type="button" id="bp-copy" aria-label="Copy link" data-url={url}>
+                    <svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" /></svg>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </aside>
+
+          <div>
+            <div class="bp-article" id="bp-article">
+              <Content />
+            </div>
+
+            <section class="bp-authorbox" aria-labelledby="author-h">
+              <img src="/images/hussnain.png" alt="Hussnain Ahmad" width="72" height="72" />
+              <div>
+                <span class="label">Written by</span>
+                <h2 id="author-h">{BUSINESS.founder}</h2>
+                <p>I build n8n automation for dental clinics: booking, reminders, recalls and follow-ups, so the front desk can focus on patients.</p>
+                <div class="links">
+                  <a href="/about/">About me &rarr;</a>
+                  {WHATSAPP_URL && <a href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp &rarr;</a>}
+                  {BUSINESS.sameAs[0] && <a href={BUSINESS.sameAs[0]} target="_blank" rel="me noopener">LinkedIn &rarr;</a>}
+                </div>
+              </div>
+            </section>
+          </div>
         </div>
       </div>
     </article>
 
-    <section class="section" style="padding-top:var(--space-xxl)">
-      <div class="wrap post-wrap">
-        <div class="cs-cta">
+    <!-- CTA -->
+    <section class="section">
+      <div class="wrap">
+        <div class="bp-cta">
           <div>
-            <span class="eyebrow">Book a discovery call</span>
             <h2 class="display-md">Want this in your clinic?</h2>
-            <p class="body-lg muted">In 30 minutes we map one workflow worth automating.</p>
+            <p>A free 30-minute call. We map one workflow worth automating and you leave with a clear next step.</p>
           </div>
-          <a class="btn btn--primary" href={CAL_URL}>Book a discovery call <span class="arr" aria-hidden="true">&rarr;</span></a>
+          <a class="bp-cta-btn" href={CAL_URL}>Book a discovery call <span class="arr" aria-hidden="true">&rarr;</span></a>
         </div>
-        {next && (
-          <a class="cs-next" href={`/blog/${next.id}/`}>
-            <span class="mono">Next post</span>
-            <span class="cs-next-title">{next.data.title} <span class="arr" aria-hidden="true">&rarr;</span></span>
-          </a>
-        )}
       </div>
     </section>
+
+    <!-- Related -->
+    {related.length > 0 && (
+      <section class="section" style="padding-top:0" aria-labelledby="rel-h">
+        <div class="wrap">
+          <div class="bp-related-head">
+            <h2 class="card-title" id="rel-h">Keep reading</h2>
+            <a href="/blog/">All posts &rarr;</a>
+          </div>
+          <div class="bp-related">
+            {related.map((r) => (
+              <a class="bp-rel-card" href={`/blog/${r.id}/`}>
+                {r.data.image && <img src={img(r.data.image)} alt="" width="1200" height="630" loading="lazy" decoding="async" />}
+                <div>
+                  <time datetime={r.data.date.toISOString()}>{formatDate(r.data.date)}</time>
+                  <h3>{r.data.title}</h3>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
   </main>
   <Footer base="/" />
   <script src="../../scripts/nav.js"></script>
+  <script>
+    // Reading progress, active contents link, copy link
+    const bar = document.getElementById("bp-bar");
+    const article = document.getElementById("bp-article");
+    const onScroll = () => {
+      if (!bar || !article) return;
+      const r = article.getBoundingClientRect();
+      const total = r.height - window.innerHeight * 0.6;
+      const p = Math.min(1, Math.max(0, -r.top / (total > 0 ? total : 1)));
+      bar.style.transform = `scaleX(${p})`;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    const links = [...document.querySelectorAll<HTMLAnchorElement>("[data-toc]")];
+    if (links.length && "IntersectionObserver" in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            links.forEach((l) => l.classList.toggle("is-active", l.dataset.toc === e.target.id));
+          });
+        },
+        { rootMargin: "-20% 0px -70% 0px" }
+      );
+      links.forEach((l) => {
+        const h = document.getElementById(l.dataset.toc || "");
+        if (h) io.observe(h);
+      });
+    }
+
+    const copy = document.getElementById("bp-copy");
+    copy?.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(copy.dataset.url || location.href);
+        copy.classList.add("is-copied");
+        copy.setAttribute("aria-label", "Link copied");
+        setTimeout(() => {
+          copy.classList.remove("is-copied");
+          copy.setAttribute("aria-label", "Copy link");
+        }, 1800);
+      } catch {}
+    });
+  </script>
 </Layout>

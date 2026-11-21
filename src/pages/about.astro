@@ -1,47 +1,201 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
-import { BUSINESS, SERVICES } from "../data/site";
+import { BUSINESS, SERVICES, WHATSAPP_URL } from "../data/site";
 import { caseStudies } from "../data/caseStudies";
+import "../styles/about.css";
+
+const location = [BUSINESS.address.city, "Pakistan"].filter(Boolean).join(", ");
+
+const principles = [
+  {
+    t: "Plain language",
+    d: "Your team will understand what I build and how it works. No black boxes.",
+    icon: "M5 6.5h14v9H9l-4 3v-12ZM8.5 10h7M8.5 12.5h4",
+  },
+  {
+    t: "Patient data first",
+    d: "Data stays in the systems you already use, and each workflow gets only the access it needs.",
+    icon: "M12 3.5l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9v-5l7-3ZM9 12l2 2 4-4",
+  },
+  {
+    t: "You own it",
+    d: "Workflows, accounts and documentation stay with your clinic, even if we stop working together.",
+    icon: "M7.5 10.5V8a4.5 4.5 0 0 1 9 0v2.5M6 10.5h12v9H6v-9ZM12 14v2",
+  },
+  {
+    t: "People stay in control",
+    d: "Anything clinical or payment-related goes to a person. AI handles the routine admin.",
+    icon: "M12 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM5 20a7 7 0 0 1 14 0",
+  },
+];
+
+const steps = [
+  { t: "Discover", d: "Understand your clinic, your patient journey and where the front desk loses time." },
+  { t: "Strategize", d: "Choose the automations that matter most and design how they connect to your systems." },
+  { t: "Build", d: "Develop, connect and test the workflows with your team before patients see them." },
+  { t: "Optimize", d: "Watch how it runs, adjust messages and timing, and add the next workflow when you're ready." },
+];
+
+const tools = ["n8n", "OpenAI", "WhatsApp Business API", "Twilio SMS", "Google Calendar", "Google Business Profile", "Practice software APIs", "Webhooks", "WordPress"];
 ---
 
 <PageLayout
   title="About Hussnain Ahmad"
-  heading="About Task GrowthX"
+  heading="About"
   eyebrow="About"
   path="/about/"
   type="AboutPage"
-  description="Task GrowthX is run by Hussnain Ahmad, who builds n8n automation for dental clinics that want a calmer front desk and a fuller schedule."
+  showHero={false}
+  description="Hussnain Ahmad builds n8n automation for dental clinics that want a calmer front desk and a fuller schedule: booking, reminders, recalls and reviews."
 >
-  <section class="section cs-block" aria-labelledby="ab-who">
-    <div class="wrap cs-grid">
-      <div class="cs-side">
-        <figure class="page-photo">
-          <img src="/images/hussnain.png" alt="Hussnain Ahmad" width="256" height="256" />
-        </figure>
-      </div>
-      <div class="cs-main prose">
-        <h2 class="display-md" id="ab-who">Hi, I'm {BUSINESS.founder}.</h2>
-        <p class="body-lg">I build AI automation for dental clinics. My work is the admin that fills every day at reception: answering booking requests, confirming appointments, chasing recalls and asking for reviews.</p>
-        <p>Every workflow runs on n8n and open APIs, so your clinic owns it. I keep each build simple enough for your team to understand, test it before patients see it, and stay on after launch to monitor and improve it. If a simple fix beats an AI model, I will tell you.</p>
-        <h3>How I work</h3>
-        <ul>
-          <li><b>Plain language.</b> Your team will understand what I build and how it works.</li>
-          <li><b>Patient data first.</b> Each workflow only gets access to what it needs.</li>
-          <li><b>You own it.</b> Workflows, accounts and documentation stay with your clinic.</li>
-          <li><b>People stay in control.</b> Anything clinical or payment-related goes to a person.</li>
+  <!-- Hero -->
+  <section class="ab-hero" aria-labelledby="ab-h">
+    <div class="wrap ab-hero-grid">
+      <div class="ab-hero-copy">
+        <span class="eyebrow">About me</span>
+        <h1 class="display-xl" id="ab-h">Hi, I'm Hussnain Ahmad.</h1>
+        <p class="body-lg muted">I build AI automation for dental clinics that want a calmer front desk and a fuller schedule. Booking, reminders, recalls and follow-ups, running quietly in the background so your team can focus on the patients in the room.</p>
+        <div class="cta-row">
+          <a class="btn btn--primary" href={BUSINESS.bookingUrl}>Book a discovery call <span class="arr" aria-hidden="true">&rarr;</span></a>
+          {WHATSAPP_URL && <a class="btn btn--secondary" href={WHATSAPP_URL} target="_blank" rel="noopener">Message on WhatsApp</a>}
+        </div>
+        <ul class="ab-facts">
+          {location && <li><span>Based in</span><b>{location}</b></li>}
+          <li><span>Builds on</span><b>n8n + AI</b></li>
+          <li><span>Works with</span><b>Dental clinics</b></li>
         </ul>
+      </div>
+
+      <figure class="ab-photo">
+        <div class="ab-photo-frame">
+          <img src="/images/hussnain.png" alt="Hussnain Ahmad" width="256" height="256" />
+        </div>
+        <figcaption class="ab-tag ab-tag--top">
+          <i aria-hidden="true"></i>{BUSINESS.jobTitle}
+        </figcaption>
+        <div class="ab-tag ab-tag--bottom" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10" /></svg>
+          Built on n8n
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="section ab-story" aria-labelledby="story-h">
+    <div class="wrap ab-story-grid">
+      <div>
+        <span class="eyebrow">My story</span>
+        <h2 class="display-md" id="story-h">Why I focus on dental clinics</h2>
+      </div>
+      <div class="ab-story-text">
+        <p class="body-lg">Every clinic I talk to has the same quiet problem: the front desk spends its day on admin. Answering booking requests, confirming appointments, chasing recalls, asking for reviews. Important work, but the same steps over and over.</p>
+        <p>That's exactly the kind of work automation does well. I build n8n workflows that take those steps off your team's plate, connected to the tools you already use. I'd rather build one workflow your team trusts for years than ten experiments that need babysitting. And if a simple fix beats an AI model, I'll tell you.</p>
       </div>
     </div>
   </section>
 
-  <section class="section cs-block" aria-labelledby="ab-svc">
-    <div class="wrap cs-grid">
-      <div class="cs-side"><h2 class="display-md" id="ab-svc">What I build</h2></div>
-      <div class="cs-main prose">
-        <ul>{SERVICES.map((s) => <li><b>{s.name}.</b> {s.description}</li>)}</ul>
-        <h3>Example builds</h3>
-        <ul>{caseStudies.map((c) => <li><a href={`/work/${c.slug}/`}>{c.title}</a></li>)}</ul>
-        <p><a class="btn btn--primary" href={BUSINESS.bookingUrl}>Book a discovery call <span class="arr" aria-hidden="true">&rarr;</span></a></p>
+  <!-- Principles -->
+  <section class="section ab-principles" aria-labelledby="pr-h" style="padding-top:0">
+    <div class="wrap">
+      <div class="ab-head">
+        <span class="eyebrow">How I work</span>
+        <h2 class="display-md" id="pr-h">Four things I never compromise on</h2>
+      </div>
+      <div class="ab-principle-grid">
+        {principles.map((p) => (
+          <div class="ab-principle">
+            <span class="ab-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d={p.icon} /></svg></span>
+            <h3>{p.t}</h3>
+            <p>{p.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section ab-services" aria-labelledby="sv-h">
+    <div class="wrap">
+      <div class="ab-head ab-head--split">
+        <div>
+          <span class="eyebrow">What I build</span>
+          <h2 class="display-md" id="sv-h">Automations for the front desk</h2>
+        </div>
+        <a class="ab-link" href="/#services">See all services <span class="arr" aria-hidden="true">&rarr;</span></a>
+      </div>
+      <div class="ab-service-grid">
+        {SERVICES.map((s, i) => (
+          <div class="ab-service">
+            <span class="ab-num">0{i + 1}</span>
+            <h3>{s.name}</h3>
+            <p>{s.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Process + tools -->
+  <section class="section ab-process" aria-labelledby="ps-h" style="padding-top:0">
+    <div class="wrap ab-process-grid">
+      <div>
+        <span class="eyebrow">Process</span>
+        <h2 class="display-md" id="ps-h">From first call to running workflow</h2>
+        <ol class="ab-steps">
+          {steps.map((s) => (
+            <li>
+              <h3>{s.t}</h3>
+              <p>{s.d}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <aside class="ab-tools" aria-labelledby="tl-h">
+        <h3 id="tl-h">Tools I work with</h3>
+        <ul>{tools.map((t) => <li class="chip">{t}</li>)}</ul>
+        <p class="muted">Everything runs on open, well-documented tools, so your clinic is never locked in.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Work -->
+  <section class="section ab-work" aria-labelledby="wk-h" style="padding-top:0">
+    <div class="wrap">
+      <div class="ab-head ab-head--split">
+        <div>
+          <span class="eyebrow">Example builds</span>
+          <h2 class="display-md" id="wk-h">See how I approach it</h2>
+        </div>
+        <a class="ab-link" href="/work/">View all work <span class="arr" aria-hidden="true">&rarr;</span></a>
+      </div>
+      <div class="ab-work-grid">
+        {caseStudies.map((c) => (
+          <a class="ab-work-card" href={`/work/${c.slug}/`}>
+            <img src={c.image} alt="" width="1200" height="560" loading="lazy" decoding="async" />
+            <div>
+              <span class="badge badge--neutral">{c.clinic}</span>
+              <h3>{c.title}</h3>
+              <span class="ab-link">Read case study <span class="arr" aria-hidden="true">&rarr;</span></span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="ab-cta">
+        <div>
+          <h2 class="display-md">Let's find your first workflow.</h2>
+          <p>A free 30-minute call. We map one task worth automating at your clinic, and you leave with a clear next step.</p>
+        </div>
+        <div class="ab-cta-actions">
+          <a class="ab-cta-btn" href={BUSINESS.bookingUrl}>Book a discovery call <span class="arr" aria-hidden="true">&rarr;</span></a>
+          
+        </div>
       </div>
     </div>
   </section>
