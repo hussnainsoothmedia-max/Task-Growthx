@@ -416,3 +416,8 @@ a.ct-method:hover .ct-go,
     height: 640px;
   }
 }
+
+.ct-value--email {
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}

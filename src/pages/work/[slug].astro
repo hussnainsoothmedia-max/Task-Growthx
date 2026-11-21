@@ -27,7 +27,7 @@ const schema = [
   caseStudyArticle(cs, url),
   breadcrumbs([
     { name: "Home", url: `${SITE_URL}/` },
-    { name: "Selected work", url: `${SITE_URL}/#work` },
+    { name: "Selected work", url: `${SITE_URL}/work/` },
     { name: cs.title, url },
   ]),
 ];
@@ -39,7 +39,6 @@ const schema = [
   <main id="main" class="cs">
     <section class="cs-hero" aria-labelledby="cs-h">
       <div class="wrap">
-        <a class="cs-back" href="/#work"><span aria-hidden="true">&larr;</span> All work</a>
         <div class="project-meta">
           <span class="badge badge--line">Demo build</span>
           <span class="badge badge--neutral">{cs.clinic}</span>

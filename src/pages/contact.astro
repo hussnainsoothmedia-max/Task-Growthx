@@ -1,13 +1,9 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
-import { BUSINESS } from "../data/site";
+import { BUSINESS, WHATSAPP_URL } from "../data/site";
 import "../styles/contact.css";
 
-const phoneDigits = BUSINESS.phone.replace(/[^\d]/g, "");
-const prettyPhone = BUSINESS.phone.replace(/^\+92(\d{3})(\d{7})$/, "+92 $1 $2");
-const waText = encodeURIComponent("Hi Hussnain, I'd like to talk about automating my clinic.");
-const whatsapp = phoneDigits ? `https://wa.me/${phoneDigits}?text=${waText}` : "";
-const calEmbed = `${BUSINESS.bookingUrl}?embed=true&theme=light&layout=month_view`;
+const whatsapp = WHATSAPP_URL;
 const location = [BUSINESS.address.city, "Pakistan"].filter(Boolean).join(", ");
 
 const handle = (u: string) => {
@@ -21,11 +17,6 @@ const NETWORKS: Record<string, { name: string; icon: string }> = {
 };
 const net = (u: string) => NETWORKS[new URL(u).hostname.replace(/^www\./, "").split(".")[0]] ?? { name: new URL(u).hostname, icon: "M5 12h14M12 5l7 7-7 7" };
 
-const steps = [
-  { t: "Tell us about your clinic", d: "How patients book today, which software you use, and where the front desk loses time. No preparation needed." },
-  { t: "We map one workflow", d: "Together we pick the task worth automating first and sketch how it would run, step by step." },
-  { t: "You get a clear next step", d: "A fixed scope and price for that first workflow, whether or not you decide to work with us." },
-];
 ---
 
 <PageLayout
@@ -35,18 +26,17 @@ const steps = [
   path="/contact/"
   type="ContactPage"
   showHero={false}
-  description="Book a 30-minute discovery call or message Hussnain Ahmad directly on WhatsApp, phone, LinkedIn, Instagram or YouTube."
+  description="Book a 30-minute discovery call or message Hussnain Ahmad directly on WhatsApp, LinkedIn, Instagram or YouTube."
 >
   <!-- Hero -->
   <section class="ct-hero" aria-labelledby="ct-h">
     <div class="wrap ct-hero-grid">
       <div class="ct-hero-copy">
-        <a class="cs-back" href="/"><span aria-hidden="true">&larr;</span> Home</a>
         <span class="eyebrow">Get in touch</span>
         <h1 class="display-xl" id="ct-h">Let's automate your front desk.</h1>
         <p class="body-lg muted">Book a free 30-minute call, or message me directly. Tell me how your clinic handles bookings today and we'll find the first workflow worth automating.</p>
         <div class="cta-row">
-          <a class="btn btn--primary" href="#book">Pick a time <span class="arr" aria-hidden="true">&darr;</span></a>
+          <a class="btn btn--primary" href={BUSINESS.bookingUrl}>Book a discovery call <span class="arr" aria-hidden="true">&rarr;</span></a>
           {whatsapp && <a class="btn btn--secondary" href={whatsapp} target="_blank" rel="noopener">Message on WhatsApp</a>}
         </div>
         <ul class="ct-points">
@@ -66,7 +56,9 @@ const steps = [
         </div>
         <dl class="ct-card-list">
           {location && <div><dt>Based in</dt><dd>{location}</dd></div>}
-          {BUSINESS.phone && <div><dt>Phone</dt><dd><a href={`tel:${BUSINESS.phone}`}>{prettyPhone}</a></dd></div>}
+          {whatsapp && (
+            <div><dt>WhatsApp</dt><dd><a class="wa-btn wa-btn--sm" href={whatsapp} target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5a9.5 9.5 0 0 0-8.2 14.3L2.5 21.5l4.8-1.3A9.5 9.5 0 1 0 12 2.5Zm4.6 13.3c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.4-1-2.6s.6-1.9.9-2.2c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.1.3.6 1 1.3 1.6.9.8 1.6 1 1.9 1.1.2.1.4.1.5-.1l.7-.9c.2-.2.3-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.1.1.6-.1 1.2Z"/></svg>Chat now</a></dd></div>
+          )}
           {BUSINESS.email && <div><dt>Email</dt><dd><a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a></dd></div>}
           <div><dt>Works with</dt><dd>Dental clinics</dd></div>
         </dl>
@@ -79,7 +71,7 @@ const steps = [
   <section class="ct-methods-wrap" aria-label="Ways to reach us">
     <div class="wrap">
       <div class="ct-methods">
-        <a class="ct-method ct-method--primary" href="#book">
+        <a class="ct-method ct-method--primary" href={BUSINESS.bookingUrl}>
           <span class="ct-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4.5 7.5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-10ZM4.5 10h15M8.5 3.5v4M15.5 3.5v4"/></svg></span>
           <span class="ct-label">Discovery call</span>
           <span class="ct-value">Book 30 minutes</span>
@@ -93,11 +85,11 @@ const steps = [
             <span class="ct-go" aria-hidden="true">&rarr;</span>
           </a>
         )}
-        {BUSINESS.phone && (
-          <a class="ct-method" href={`tel:${BUSINESS.phone}`}>
-            <span class="ct-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6.5 4h3l1.5 4-2 1.5a10 10 0 0 0 5.5 5.5L16 13l4 1.5v3a2 2 0 0 1-2 2A15 15 0 0 1 4.5 6a2 2 0 0 1 2-2Z"/></svg></span>
-            <span class="ct-label">Phone</span>
-            <span class="ct-value">{prettyPhone}</span>
+        {BUSINESS.email && (
+          <a class="ct-method" href={`mailto:${BUSINESS.email}`}>
+            <span class="ct-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6.5h16v11H4v-11ZM4.5 7l7.5 6 7.5-6"/></svg></span>
+            <span class="ct-label">Email</span>
+            <span class="ct-value ct-value--email">{BUSINESS.email}</span>
             <span class="ct-go" aria-hidden="true">&rarr;</span>
           </a>
         )}
@@ -109,39 +101,6 @@ const steps = [
             <span class="ct-sub">Remote, for clinics anywhere</span>
           </div>
         )}
-      </div>
-    </div>
-  </section>
-
-  <!-- Booking -->
-  <section class="section ct-book" id="book" aria-labelledby="book-h">
-    <div class="wrap ct-book-grid">
-      <div class="ct-book-copy">
-        <span class="eyebrow">Discovery call</span>
-        <h2 class="display-md" id="book-h">What happens on the call</h2>
-        <ol class="ct-steps">
-          {steps.map((s) => (
-            <li>
-              <h3>{s.t}</h3>
-              <p>{s.d}</p>
-            </li>
-          ))}
-        </ol>
-        <p class="muted ct-note">Prefer not to book yet? <a href={whatsapp || `tel:${BUSINESS.phone}`}>Send a quick message</a> instead.</p>
-      </div>
-
-      <div class="ct-embed">
-        <div class="ct-embed-bar">
-          <span class="ct-embed-dot" aria-hidden="true"></span>
-          <span>Pick a time that suits you</span>
-          <a href={BUSINESS.bookingUrl} target="_blank" rel="noopener">Open in new tab &nearr;</a>
-        </div>
-        <iframe
-          src={calEmbed}
-          title="Book a discovery call with Hussnain Ahmad on Cal.com"
-          loading="lazy"
-          allow="payment"
-        ></iframe>
       </div>
     </div>
   </section>

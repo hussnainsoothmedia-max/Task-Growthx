@@ -1,0 +1,24 @@
+/* Work listing page + homepage "View all work" button */
+.work-list .post-cover {
+  aspect-ratio: 1200 / 560;
+}
+.work-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+  margin: 0;
+}
+.work-facts dt {
+  font: 500 12px/1.4 var(--font-sans);
+  color: var(--ink-muted);
+  margin-bottom: 2px;
+}
+.work-facts dd {
+  margin: 0;
+  font-size: 14px;
+}
+.work-more {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-xl);
+}

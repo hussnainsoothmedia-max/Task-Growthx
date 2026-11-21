@@ -15,7 +15,7 @@ export const BUSINESS = {
   photo: `${SITE_URL}/images/hussnain.png`,
   bookingUrl: CAL_URL,
   // Public contact details. Leave "" to hide.
-  email: "", // e.g. "hello@hussnainahmad.com"
+  email: "contact@hussnainahmad.com",
   phone: "+923277818977",
   // Business address. Leave fields "" to hide. country = 2-letter code, e.g. "PK".
   address: { street: "", city: "Lahore", region: "Punjab", postalCode: "", country: "PK" },
@@ -79,9 +79,20 @@ export const FAQS = [
 // Every page, for the sitemap and llms.txt
 export const PAGES = [
   { path: "/", title: "Home", summary: "AI automation for dental clinics: services, process, selected work and FAQ." },
+  { path: "/work/", title: "Selected work", summary: "All demonstration case studies: booking, reminders, recalls and reviews." },
   { path: "/blog/", title: "Blog", summary: "Practical guides on automating a dental clinic front desk with n8n." },
   { path: "/about/", title: "About", summary: "Who builds the workflows and how the work is done." },
   { path: "/contact/", title: "Contact", summary: "How to reach us and book a discovery call." },
   { path: "/privacy/", title: "Privacy policy", summary: "What data this site collects and how it is used." },
   { path: "/terms/", title: "Terms of service", summary: "Terms for using this site and working together." },
 ];
+
+// WhatsApp chat link built from BUSINESS.phone, with a ready-made first message
+export const WHATSAPP_URL = BUSINESS.phone
+  ? `https://wa.me/${BUSINESS.phone.replace(/[^\d]/g, "")}?text=${encodeURIComponent(
+      "Hi Hussnain, I'd like to talk about automating my clinic."
+    )}`
+  : "";
+
+// Phone formatted for display, e.g. "+92 327 7818977"
+export const PHONE_DISPLAY = BUSINESS.phone.replace(/^\+92(\d{3})(\d{7})$/, "+92 $1 $2");

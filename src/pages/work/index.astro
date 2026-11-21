@@ -1,0 +1,67 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import { caseStudies } from "../../data/caseStudies";
+import { BUSINESS, SITE_URL } from "../../data/site";
+import "../../styles/work.css";
+
+const itemList = {
+  "@type": "ItemList",
+  "@id": `${SITE_URL}/work/#list`,
+  name: "Selected work",
+  itemListElement: caseStudies.map((c, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    url: `${SITE_URL}/work/${c.slug}/`,
+    name: c.title,
+  })),
+};
+---
+
+<PageLayout
+  title="Selected work"
+  heading="Selected work"
+  eyebrow="Our work"
+  path="/work/"
+  type="CollectionPage"
+  description="Workflows we've built for dental clinics: booking, reminders, recalls and reviews. Each one shows the problem, the n8n workflow and how it runs."
+  extraSchema={[itemList]}
+>
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <ul class="post-grid work-list">
+        {caseStudies.map((c, i) => (
+          <li>
+            <a class="post-card" href={`/work/${c.slug}/`}>
+              <img class="post-cover" src={c.image} alt="" width="1200" height="560" loading={i < 2 ? "eager" : "lazy"} decoding="async" />
+              <div class="project-meta">
+                <span class="badge badge--line">Demo build</span>
+                <span class="badge badge--neutral">{c.clinic}</span>
+              </div>
+              <h2>{c.title}</h2>
+              <p>{c.lead}</p>
+              <dl class="work-facts">
+                <div><dt>Channels</dt><dd>{c.channels}</dd></div>
+                <div><dt>Build time</dt><dd>{c.buildTime}</dd></div>
+              </dl>
+              <span class="post-more">View case study <span class="arr" aria-hidden="true">&rarr;</span></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="demo-note">These are demonstration projects built to show our approach for dental clinics. They are not presented as client results.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="cs-cta">
+        <div>
+          <span class="eyebrow">Your clinic next</span>
+          <h2 class="display-md">Have a workflow in mind?</h2>
+          <p class="body-lg muted">In 30 minutes we map the first task worth automating at your clinic.</p>
+        </div>
+        <a class="btn btn--primary" href={BUSINESS.bookingUrl}>Book a discovery call <span class="arr" aria-hidden="true">&rarr;</span></a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
