@@ -45,11 +45,13 @@ import "./nav.js";
       var map = {
         hero: "hero",
         trust: "hero",
+        problem: "hero",
         services: "services",
-        work: "services",
+        work: "work",
+        why: "why",
         process: "process",
         about: "about",
-        faq: "about",
+        faq: "faq",
         contact: "contact",
       };
       var io3 = new IntersectionObserver(
@@ -562,19 +564,25 @@ import "./nav.js";
       // and an ink highlight that hands off from step to step.
       var mm = gsap.matchMedia();
       var steps = gsap.utils.toArray(".step");
-      var WHITE = {
-        "--sbg": "#ffffff",
-        "--sfg": "#111111",
-        "--smuted": "#626260",
-        "--sline": "#d3cec6",
-        "--snum": "#9c9fa5",
+      // Card colors come from the theme tokens in global.css
+      var tok = getComputedStyle(document.documentElement);
+      var t = function (name, fallback) {
+        return tok.getPropertyValue(name).trim() || fallback;
       };
+      var WHITE = {
+        "--sbg": t("--surface-1", "#ffffff"),
+        "--sfg": t("--ink", "#111111"),
+        "--smuted": t("--ink-muted", "#626260"),
+        "--sline": t("--hairline", "#d3cec6"),
+        "--snum": t("--ink-tertiary", "#9c9fa5"),
+      };
+      // Active step: inverse canvas
       var INK = {
-        "--sbg": "#111111",
-        "--sfg": "#ffffff",
-        "--smuted": "#9c9fa5",
-        "--sline": "#2c2c2c",
-        "--snum": "#626260",
+        "--sbg": t("--inverse-canvas", "#111111"),
+        "--sfg": t("--inverse-ink", "#ffffff"),
+        "--smuted": t("--ink-tertiary", "#9c9fa5"),
+        "--sline": "rgba(255, 255, 255, 0.14)",
+        "--snum": t("--ink-muted", "#626260"),
       };
       mm.add("(min-width: 1101px)", function () {
         var bars = gsap.utils.toArray(".track b");

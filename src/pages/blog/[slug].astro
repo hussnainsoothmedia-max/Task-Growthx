@@ -1,0 +1,94 @@
+---
+import { render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { formatDate, getPosts, readingTime } from "../../data/blog";
+import { ORG_ID, PERSON_ID, WEBSITE_ID, breadcrumbs, webPage } from "../../data/schema";
+import { BUSINESS, SITE_URL } from "../../data/site";
+import { CAL_URL } from "../../config";
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: { post, next: posts[i + 1] ?? null },
+  }));
+}
+
+const { post, next } = Astro.props;
+const { Content } = await render(post);
+const url = `${SITE_URL}/blog/${post.id}/`;
+const d = post.data;
+const schema = [
+  webPage(url, d.title, d.description),
+  {
+    "@type": "BlogPosting",
+    "@id": `${url}#post`,
+    headline: d.title,
+    description: d.description,
+    url,
+    datePublished: d.date.toISOString(),
+    dateModified: (d.updated ?? d.date).toISOString(),
+    author: { "@id": PERSON_ID },
+    publisher: { "@id": ORG_ID },
+    isPartOf: { "@id": WEBSITE_ID },
+    image: BUSINESS.photo,
+    keywords: d.tags.join(", "),
+    inLanguage: "en",
+  },
+  breadcrumbs([
+    { name: "Home", url: `${SITE_URL}/` },
+    { name: "Blog", url: `${SITE_URL}/blog/` },
+    { name: d.title, url },
+  ]),
+];
+---
+
+<Layout title={`${d.title} · Task GrowthX`} description={d.description} ogType="article" schema={schema}>
+  <a class="skip" href="#main">Skip to content</a>
+  <Header base="/" />
+  <main id="main">
+    <article class="post">
+      <header class="cs-hero">
+        <div class="wrap post-wrap">
+          <a class="cs-back" href="/blog/"><span aria-hidden="true">&larr;</span> All posts</a>
+          <div class="post-meta mono">
+            <time datetime={d.date.toISOString()}>{formatDate(d.date)}</time>
+            <span>· {readingTime(post.body)} min read</span>
+            <span>· {BUSINESS.founder}</span>
+          </div>
+          <h1 class="display-lg">{d.title}</h1>
+          <p class="body-lg muted">{d.description}</p>
+          {d.tags.length > 0 && <div class="post-tags">{d.tags.map((t) => <span class="badge badge--neutral">{t}</span>)}</div>}
+        </div>
+      </header>
+      <div class="wrap post-wrap">
+        <div class="post-body prose">
+          <Content />
+        </div>
+      </div>
+    </article>
+
+    <section class="section" style="padding-top:var(--space-xxl)">
+      <div class="wrap post-wrap">
+        <div class="cs-cta">
+          <div>
+            <span class="eyebrow">Book a discovery call</span>
+            <h2 class="display-md">Want this in your clinic?</h2>
+            <p class="body-lg muted">In 30 minutes we map one workflow worth automating.</p>
+          </div>
+          <a class="btn btn--primary" href={CAL_URL}>Book a discovery call <span class="arr" aria-hidden="true">&rarr;</span></a>
+        </div>
+        {next && (
+          <a class="cs-next" href={`/blog/${next.id}/`}>
+            <span class="mono">Next post</span>
+            <span class="cs-next-title">{next.data.title} <span class="arr" aria-hidden="true">&rarr;</span></span>
+          </a>
+        )}
+      </div>
+    </section>
+  </main>
+  <Footer base="/" />
+  <script src="../../scripts/nav.js"></script>
+</Layout>

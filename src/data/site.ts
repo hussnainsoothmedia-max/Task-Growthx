@@ -73,6 +73,7 @@ export const FAQS = [
 // Every page, for the sitemap and llms.txt
 export const PAGES = [
   { path: "/", title: "Home", summary: "AI automation for dental clinics: services, process, selected work and FAQ." },
+  { path: "/blog/", title: "Blog", summary: "Practical guides on automating a dental clinic front desk with n8n." },
   { path: "/about/", title: "About", summary: "Who builds the workflows and how the work is done." },
   { path: "/contact/", title: "Contact", summary: "How to reach us and book a discovery call." },
   { path: "/privacy/", title: "Privacy policy", summary: "What data this site collects and how it is used." },

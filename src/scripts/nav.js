@@ -30,6 +30,6 @@ document.documentElement.classList.add("js");
     }
   });
   window.addEventListener("resize", function () {
-    if (window.innerWidth > 960) setMenu(false);
+    if (window.innerWidth > 1200) setMenu(false);
   });
 })();

@@ -1,18 +1,22 @@
   /* Layout: editorial single column on cream; white cards lift the work (workflow mockups) onto the canvas; one black band for the approach statement.
    Tokens are copied from the Task GrowthX design system (light theme only, by design). */
   :root {
-    --canvas: #f5f1ec;
-    --surface-1: #ffffff;
-    --hairline: #d3cec6;
-    --ink: #111111;
-    --ink-muted: #626260;
-    --ink-subtle: #7b7b78;
-    --ink-tertiary: #9c9fa5;
-    --on-primary: #ffffff;
-    --inverse-canvas: #000000;
-    --inverse-ink: #ffffff;
-    --inverse-rule: #2c2c2c; /* derived: hairline on the black band (not in the system yet) */
-    --accent-ai: #ff5600;
+     --canvas: #F0F7F6;
+    --surface-1: #FFFFFF;
+    --hairline: #D0E0DD;
+
+    --ink: #102321;
+    --ink-muted: #526663;
+    --ink-subtle: #718581;
+    --ink-tertiary: #96A8A4;
+
+    --on-primary: #FFFFFF;
+
+    --inverse-canvas: #001112;
+    --inverse-ink: #FFFFFF;
+    --inverse-rule: #1C3735;
+
+    --accent-ai: #00A99D;
 
     --font-sans:
       "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -1152,14 +1156,14 @@
   .track i b {
     position: absolute;
     inset: 0;
-    background: var(--ink);
+    background: var(--inverse-canvas);
     transform-origin: left center;
   }
 
   /* Process scrub: colors come from custom properties GSAP tweens */
   .steps .step {
-    background: var(--sbg, var(--surface-1));
-    color: var(--sfg, var(--ink));
+    background: var(--sbg, var(--inverse-canvas));
+    color: var(--sfg, var(--inverse-canvas));
   }
   .steps .step p,
   .steps .step .out span {
@@ -2484,4 +2488,111 @@
     width: 32px;
     height: 32px;
     border-radius: 8px;
+  }
+
+  /* Menu: 8 links fit from 1201px; below that they move into the burger menu */
+  .nav-links a[aria-current="page"] {
+    color: var(--ink);
+  }
+  @media (max-width: 1200px) {
+    .nav-links {
+      display: none;
+    }
+    .menu-btn {
+      display: inline-flex;
+    }
+  }
+
+  /* ---------- Blog ---------- */
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-lg);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .post-card {
+    display: grid;
+    gap: var(--space-md);
+    align-content: start;
+    height: 100%;
+    background: var(--surface-1);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    color: var(--ink);
+    text-decoration: none;
+    transition: transform 0.25s ease;
+  }
+  .post-card:hover {
+    transform: translateY(-4px);
+  }
+  .post-card h2 {
+    font-size: clamp(22px, 2vw, 26px);
+    line-height: 1.25;
+    letter-spacing: -0.4px;
+  }
+  .post-card p {
+    color: var(--ink-muted);
+    font-size: 15px;
+  }
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    color: var(--ink-muted);
+  }
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+  .post-more {
+    display: inline-flex;
+    gap: var(--space-xs);
+    font: 500 15px/1.2 var(--font-sans);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--hairline);
+  }
+  .post-card:hover .post-more .arr {
+    transform: translateX(4px);
+  }
+  .post-more .arr {
+    transition: transform 0.25s ease;
+  }
+  .post-wrap {
+    max-width: calc(780px + 2 * var(--gutter));
+  }
+  .post .cs-hero .wrap {
+    display: grid;
+    gap: var(--space-lg);
+  }
+  .post-body {
+    display: grid;
+    gap: var(--space-md);
+    font-size: 17px;
+    line-height: 1.7;
+  }
+  .post-body h2 {
+    font-size: 26px;
+    margin-top: var(--space-lg);
+  }
+  .post-body ol {
+    display: grid;
+    gap: var(--space-xs);
+    margin: 0;
+    padding-left: 1.4em;
+  }
+  .post-body hr {
+    border: 0;
+    border-top: 1px solid var(--hairline);
+    margin: var(--space-lg) 0 0;
+  }
+  @media (max-width: 760px) {
+    .post-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .post-card {
+      padding: var(--space-lg);
+    }
   }

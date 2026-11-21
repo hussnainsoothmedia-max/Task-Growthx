@@ -14,9 +14,10 @@ interface Props {
   path: string;
   type?: string;
   updated?: string;
+  extraSchema?: Record<string, unknown>[];
 }
 
-const { title, heading, description, eyebrow, path, type = "WebPage", updated } = Astro.props;
+const { title, heading, description, eyebrow, path, type = "WebPage", updated, extraSchema = [] } = Astro.props;
 const url = `${SITE_URL}${path}`;
 const schema = [
   webPage(url, title, description, type),
@@ -24,6 +25,7 @@ const schema = [
     { name: "Home", url: `${SITE_URL}/` },
     { name: heading, url },
   ]),
+  ...extraSchema,
 ];
 ---
 

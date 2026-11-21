@@ -1,6 +1,21 @@
 ---
 import { CAL_URL } from "../config";
 const { base = "" } = Astro.props;
+
+// Menu items in page order. `sec` links to a homepage section; `href` to a page.
+const items = [
+  { label: "Home", sec: "hero" },
+  { label: "Services", sec: "services" },
+  { label: "Work", sec: "work" },
+  { label: "Why us", sec: "why" },
+  { label: "Process", sec: "process" },
+  { label: "About", sec: "about" },
+  { label: "FAQ", sec: "faq" },
+  { label: "Blog", href: "/blog/" },
+];
+const path = Astro.url.pathname;
+const link = (it: (typeof items)[number]) => (it.href ? it.href : base + "#" + it.sec);
+const current = (it: (typeof items)[number]) => (it.href && path.startsWith(it.href) ? "page" : undefined);
 ---
 <header class="nav-shell" id="top">
   <div class="wrap">
@@ -8,7 +23,7 @@ const { base = "" } = Astro.props;
       <a class="nav-brand" href={base + "#hero"} aria-label="Hussnain Ahmad home">
         <svg
           class="logo"
-          viewBox="0 0 336.3 64"
+          viewBox="0 0 380 64"
           role="img"
           aria-label="Hussnain Ahmad"
         >
@@ -16,10 +31,9 @@ const { base = "" } = Astro.props;
         </svg>
       </a>
       <ul class="nav-links">
-        <li><a href={base + "#hero"} data-sec="hero">Home</a></li>
-        <li><a href={base + "#services"} data-sec="services">Services</a></li>
-        <li><a href={base + "#process"} data-sec="process">Process</a></li>
-        <li><a href={base + "#about"} data-sec="about">About</a></li>
+        {items.map((it) => (
+          <li><a href={link(it)} data-sec={it.sec} aria-current={current(it)}>{it.label}</a></li>
+        ))}
       </ul>
       <div class="nav-actions">
         <a class="btn btn--primary" href={CAL_URL}
@@ -40,11 +54,8 @@ const { base = "" } = Astro.props;
     </nav>
     <div class="mobile-menu" id="mobile-menu" hidden>
       <ul>
-        <li><a href={base + "#hero"}>Home</a></li>
-        <li><a href={base + "#about"}>About</a></li>
-        <li><a href={base + "#services"}>Services</a></li>
-        <li><a href={base + "#process"}>Process</a></li>
-        <li><a href={base + "#contact"}>Contact</a></li>
+        {items.map((it) => <li><a href={link(it)} aria-current={current(it)}>{it.label}</a></li>)}
+        <li><a href="/contact/">Contact</a></li>
       </ul>
       <a class="btn btn--primary" href={CAL_URL}>Book a discovery call</a>
     </div>

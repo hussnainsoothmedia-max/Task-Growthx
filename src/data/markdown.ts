@@ -12,7 +12,7 @@ const contactLines = () =>
     .filter(Boolean)
     .join("\n");
 
-export function llmsTxt(): string {
+export function llmsTxt(posts: { id: string; title: string; description: string }[] = []): string {
   return `# ${BUSINESS.name}
 
 > ${BUSINESS.description} Run by ${BUSINESS.founder}.
@@ -32,7 +32,7 @@ ${SERVICES.map((s) => `- ${s.name}: ${s.description}`).join("\n")}
 
 ${caseStudies.map((c) => `- [${c.title}](${SITE_URL}/work/${c.slug}/): ${c.lead}`).join("\n")}
 
-## Contact
+${posts.length ? `## Blog\n\n${posts.map((b) => `- [${b.title}](${SITE_URL}/blog/${b.id}/): ${b.description}`).join("\n")}\n\n` : ""}## Contact
 
 ${contactLines()}
 `;

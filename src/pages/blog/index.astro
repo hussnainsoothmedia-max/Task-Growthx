@@ -1,0 +1,59 @@
+---
+import PageLayout from "../../layouts/PageLayout.astro";
+import { formatDate, getPosts, readingTime } from "../../data/blog";
+import { ORG_ID, PERSON_ID } from "../../data/schema";
+import { SITE_URL } from "../../data/site";
+
+const posts = await getPosts();
+const blogSchema = {
+  "@type": "Blog",
+  "@id": `${SITE_URL}/blog/#blog`,
+  name: "Task GrowthX blog",
+  url: `${SITE_URL}/blog/`,
+  publisher: { "@id": ORG_ID },
+  blogPost: posts.map((p) => ({
+    "@type": "BlogPosting",
+    headline: p.data.title,
+    url: `${SITE_URL}/blog/${p.id}/`,
+    datePublished: p.data.date.toISOString(),
+    author: { "@id": PERSON_ID },
+  })),
+};
+---
+
+<PageLayout
+  title="Blog"
+  heading="Blog"
+  eyebrow="Notes from the build"
+  path="/blog/"
+  type="CollectionPage"
+  description="Practical guides on automating a dental clinic's front desk: booking, reminders, recalls and the n8n workflows behind them."
+  extraSchema={[blogSchema]}
+>
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      {posts.length === 0 ? (
+        <p class="muted">No posts yet.</p>
+      ) : (
+        <ul class="post-grid">
+          {posts.map((p) => (
+            <li>
+              <a class="post-card" href={`/blog/${p.id}/`}>
+                <div class="post-meta mono">
+                  <time datetime={p.data.date.toISOString()}>{formatDate(p.data.date)}</time>
+                  <span>· {readingTime(p.body)} min read</span>
+                </div>
+                <h2>{p.data.title}</h2>
+                <p>{p.data.description}</p>
+                {p.data.tags.length > 0 && (
+                  <div class="post-tags">{p.data.tags.map((t) => <span class="badge badge--neutral">{t}</span>)}</div>
+                )}
+                <span class="post-more">Read post <span class="arr" aria-hidden="true">&rarr;</span></span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
+</PageLayout>
