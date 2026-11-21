@@ -1,0 +1,9 @@
+# Content Signals (https://contentsignals.org)
+# search:   may be indexed and shown in search results
+# ai-input: may be used to answer questions in AI tools (with a link back)
+# ai-train: may NOT be used to train AI models
+User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+Allow: /
+
+Sitemap: https://hussnainahmad.com/sitemap.xml

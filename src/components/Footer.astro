@@ -1,6 +1,17 @@
 ---
 import { CAL_URL } from "../config";
+import { BUSINESS } from "../data/site";
 const { base = "" } = Astro.props;
+
+// "https://www.linkedin.com/in/x" -> "LinkedIn"
+const NAMES: Record<string, string> = {
+  linkedin: "LinkedIn", instagram: "Instagram", youtube: "YouTube", github: "GitHub",
+  x: "X", twitter: "X", facebook: "Facebook", upwork: "Upwork", tiktok: "TikTok", fiverr: "Fiverr",
+};
+const label = (u: string) => {
+  const host = new URL(u).hostname.replace(/^www\./, "").split(".")[0];
+  return NAMES[host] ?? host.charAt(0).toUpperCase() + host.slice(1);
+};
 ---
 <footer class="footer" aria-labelledby="foot-h">
   <div class="wrap">
@@ -12,7 +23,7 @@ const { base = "" } = Astro.props;
       </div>
       <div class="foot-col">
         <h4>Navigation</h4>
-        <ul><li><a href={base + "#hero"}>Home</a></li><li><a href={base + "#about"}>About</a></li><li><a href={base + "#services"}>Services</a></li><li><a href={base + "#process"}>Process</a></li><li><a href={base + "#work"}>Selected work</a></li></ul>
+        <ul><li><a href={base + "#hero"}>Home</a></li><li><a href="/about/">About</a></li><li><a href={base + "#services"}>Services</a></li><li><a href={base + "#process"}>Process</a></li><li><a href={base + "#work"}>Selected work</a></li><li><a href="/contact/">Contact</a></li></ul>
       </div>
       <div class="foot-col">
         <h4>Services</h4>
@@ -20,13 +31,19 @@ const { base = "" } = Astro.props;
       </div>
       <div class="foot-col">
         <h4>Contact</h4>
-        <ul><li><a href={CAL_URL}>Book a discovery call</a></li><li><a href="#" data-placeholder>LinkedIn</a></li><li><a href="#" data-placeholder>Instagram</a></li><li><a href="#" data-placeholder>YouTube</a></li></ul>
+        <ul>
+          <li><a href={CAL_URL}>Book a discovery call</a></li>
+          {BUSINESS.email && <li><a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a></li>}
+          {BUSINESS.phone && <li><a href={`tel:${BUSINESS.phone}`}>{BUSINESS.phone}</a></li>}
+          <li><a href="/contact/">Contact page</a></li>
+          {BUSINESS.sameAs.map((u) => <li><a href={u} rel="me noopener" target="_blank">{label(u)}</a></li>)}
+        </ul>
       </div>
     </div>
     <p class="foot-word" aria-hidden="true">Hussnain<span>.</span></p>
     <div class="foot-base">
       <span>&copy; 2026 Hussnain Ahmad. All rights reserved.</span>
-      <span>Built on n8n. Tested before launch.</span>
+      <span><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/llms.txt">llms.txt</a></span>
     </div>
   </div>
 </footer>

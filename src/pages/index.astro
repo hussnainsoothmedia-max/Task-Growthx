@@ -11,9 +11,14 @@ import Process from "../components/Process.astro";
 import About from "../components/About.astro";
 import Faq from "../components/Faq.astro";
 import Footer from "../components/Footer.astro";
+import { faqPage, webPage } from "../data/schema";
+import { BUSINESS, SITE_URL } from "../data/site";
+
+const url = `${SITE_URL}/`;
+const schema = [webPage(url, "Task GrowthX · AI Automation for Dental Clinics", BUSINESS.description), faqPage(url)];
 ---
 
-<Layout>
+<Layout schema={schema} markdown="/index.md">
   <a class="skip" href="#main">
     Skip to content
   </a>

@@ -4,6 +4,8 @@ import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { caseStudies, type CaseStudy } from "../../data/caseStudies";
 import { CAL_URL } from "../../config";
+import { breadcrumbs, caseStudyArticle, webPage } from "../../data/schema";
+import { SITE_URL } from "../../data/site";
 
 export function getStaticPaths() {
   return caseStudies.map((cs, i) => ({
@@ -18,10 +20,20 @@ interface Props {
 }
 
 const { cs, next } = Astro.props;
-const pageTitle = `${cs.title} · Case study · GrowthX`;
+const pageTitle = `${cs.title} · Case study · Task GrowthX`;
+const url = `${SITE_URL}/work/${cs.slug}/`;
+const schema = [
+  webPage(url, pageTitle, cs.lead),
+  caseStudyArticle(cs, url),
+  breadcrumbs([
+    { name: "Home", url: `${SITE_URL}/` },
+    { name: "Selected work", url: `${SITE_URL}/#work` },
+    { name: cs.title, url },
+  ]),
+];
 ---
 
-<Layout title={pageTitle} description={cs.lead} ogTitle={`${cs.title} · GrowthX`} ogType="article">
+<Layout title={pageTitle} description={cs.lead} ogTitle={`${cs.title} · Task GrowthX`} ogType="article" schema={schema}>
   <a class="skip" href="#main">Skip to content</a>
   <Header base="/" />
   <main id="main" class="cs">

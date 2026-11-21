@@ -1,0 +1,46 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import { BUSINESS } from "../data/site";
+---
+
+<PageLayout
+  title="Contact"
+  heading="Contact"
+  eyebrow="Get in touch"
+  path="/contact/"
+  type="ContactPage"
+  description="Book a 30-minute discovery call or get in touch directly. We map one clinic workflow worth automating and you leave with a clear next step."
+>
+  <section class="section cs-block" aria-labelledby="ct-h">
+    <div class="wrap cs-grid">
+      <div class="cs-side"><h2 class="display-md" id="ct-h">Ways to reach us</h2></div>
+      <div class="cs-main prose">
+        <address class="contact-list">
+          <div>
+            <span class="mono muted">Discovery call</span>
+            <a class="btn btn--primary" href={BUSINESS.bookingUrl}>Book a 30-minute call <span class="arr" aria-hidden="true">&rarr;</span></a>
+          </div>
+          {BUSINESS.email && (
+            <div><span class="mono muted">Email</span><a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a></div>
+          )}
+          {BUSINESS.phone && (
+            <div><span class="mono muted">Phone / WhatsApp</span><a href={`tel:${BUSINESS.phone}`}>{BUSINESS.phone}</a></div>
+          )}
+          {BUSINESS.sameAs.length > 0 && (
+            <div>
+              <span class="mono muted">Profiles</span>
+              <ul>{BUSINESS.sameAs.map((u) => <li><a href={u} rel="me noopener" target="_blank">{u.replace(/^https?:\/\/(www\.)?/, "")}</a></li>)}</ul>
+            </div>
+          )}
+        </address>
+        <h3>What happens on the call</h3>
+        <ul>
+          <li>A 30-minute call, no preparation needed</li>
+          <li>We map one clinic workflow worth automating</li>
+          <li>You leave with a clear next step, whether or not we work together</li>
+        </ul>
+        <p class="muted">Area served: {BUSINESS.areaServed}. Calls in English or Urdu.</p>
+      </div>
+    </div>
+  </section>
+</PageLayout>

@@ -1,0 +1,34 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import { BUSINESS } from "../data/site";
+---
+
+<PageLayout
+  title="Terms of service"
+  heading="Terms of service"
+  eyebrow="Legal"
+  path="/terms/"
+  updated="21 November 2026"
+  description="The terms for using this website. Paid work is always covered by a separate written scope and agreement."
+>
+  <section class="section cs-block">
+    <div class="wrap cs-grid">
+      <div class="cs-side"><span class="eyebrow">Summary</span></div>
+      <div class="cs-main prose">
+        <p>These terms apply to hussnainahmad.com, run by {BUSINESS.founder} ({BUSINESS.name}). By using the site you agree to them.</p>
+        <h2>Information on this site</h2>
+        <p>The content is general information about our services. The case studies are demonstration builds that show our approach. They are not client results and are not a promise of any specific outcome.</p>
+        <h2>Working together</h2>
+        <p>A discovery call does not create any obligation for either side. Paid work starts only after we agree a written scope, price and timeline. That agreement, not this page, governs the project, including ownership of the workflows and data protection.</p>
+        <h2>No medical advice</h2>
+        <p>Nothing on this site, and no workflow we build, gives clinical or medical advice. Clinical decisions always stay with qualified clinic staff.</p>
+        <h2>Intellectual property</h2>
+        <p>The text, design and images on this site belong to {BUSINESS.founder} unless stated otherwise. Please don't copy them without permission. Third-party names such as n8n and WhatsApp belong to their owners.</p>
+        <h2>Liability</h2>
+        <p>We work to keep the site accurate and available, but it is provided as it is. We are not liable for losses from relying on general information on this site.</p>
+        <h2>Changes</h2>
+        <p>We may update these terms. The date at the top shows the latest version. Questions? See the <a href="/contact/">contact page</a>.</p>
+      </div>
+    </div>
+  </section>
+</PageLayout>

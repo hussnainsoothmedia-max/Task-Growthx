@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import LogoSprite from "../components/LogoSprite.astro";
+import { baseGraph } from "../data/schema";
 
 interface Props {
   title?: string;
@@ -8,17 +9,23 @@ interface Props {
   ogTitle?: string;
   ogDescription?: string;
   ogType?: string;
+  schema?: Record<string, unknown>[];
+  markdown?: string;
 }
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
 
 const {
-  title = "GrowthX",
-  description = "GrowthX builds AI automation for dental clinics: online booking, appointment reminders, patient recalls and front-desk workflows on n8n.",
-  ogTitle = "GrowthX · AI automation for dental clinics",
+  title = "Task GrowthX · AI Automation for Dental Clinics | Hussnain Ahmad",
+  description = "Task GrowthX builds AI automation for dental clinics: online booking, appointment reminders, patient recalls and front-desk workflows on n8n.",
+  ogTitle = "Task GrowthX · AI automation for dental clinics",
   ogDescription = "We build intelligent systems that keep your dental chairs full: online booking, reminders, recalls and an AI front-desk assistant.",
   ogType = "website",
+  schema = [],
+  markdown,
 } = Astro.props;
+
+const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@graph": [...baseGraph(), ...schema] });
 ---
 
 <!doctype html>
@@ -32,6 +39,11 @@ const {
     <meta property="og:description" content={ogDescription ?? description} />
     <meta property="og:type" content={ogType} />
     <link rel="canonical" href={canonical} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Task GrowthX" />
+    {markdown && <link rel="alternate" type="text/markdown" href={markdown} />}
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <script type="application/ld+json" set:html={jsonLd} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -43,5 +55,8 @@ const {
   <body>
     <LogoSprite />
     <slot />
+    <script>
+      import "../scripts/webmcp.js";
+    </script>
   </body>
 </html>

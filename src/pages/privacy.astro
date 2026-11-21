@@ -1,0 +1,37 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import { BUSINESS } from "../data/site";
+const contact = BUSINESS.email ? `email ${BUSINESS.email}` : "use the contact page";
+---
+
+<PageLayout
+  title="Privacy policy"
+  heading="Privacy policy"
+  eyebrow="Legal"
+  path="/privacy/"
+  updated="21 November 2026"
+  description="What this website collects, why, and who else handles it. Short version: no tracking cookies, and booking data is handled by Cal.com."
+>
+  <section class="section cs-block">
+    <div class="wrap cs-grid">
+      <div class="cs-side"><span class="eyebrow">Summary</span></div>
+      <div class="cs-main prose">
+        <p>This policy covers {`hussnainahmad.com`}, run by {BUSINESS.founder} ({BUSINESS.name}).</p>
+        <h2>What this site collects</h2>
+        <ul>
+          <li><b>No accounts and no tracking cookies.</b> The site itself does not set cookies or run analytics.</li>
+          <li><b>Server logs.</b> Our host (Hostinger) keeps standard logs such as IP address, browser and pages requested, for security and to keep the site running.</li>
+          <li><b>Fonts.</b> Text fonts load from Google Fonts, so Google receives your IP address when the page loads.</li>
+        </ul>
+        <h2>Booking a call</h2>
+        <p>The "Book a discovery call" buttons open Cal.com. Anything you enter there, such as your name, email and notes, is collected by Cal.com under its own privacy policy and shared with us so we can hold the call.</p>
+        <h2>How we use your details</h2>
+        <p>Only to arrange and hold the call and to follow up about your enquiry. We do not sell your data or use it for advertising.</p>
+        <h2>Client projects</h2>
+        <p>Patient data handled by workflows we build stays in your clinic's own systems and accounts. Data protection terms for a project are agreed in writing before any build starts.</p>
+        <h2>Your rights</h2>
+        <p>You can ask to see, correct or delete the details you have shared with us. To do that, {contact}.</p>
+      </div>
+    </div>
+  </section>
+</PageLayout>

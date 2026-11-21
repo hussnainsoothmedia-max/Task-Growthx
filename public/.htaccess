@@ -1,0 +1,22 @@
+# Hostinger (LiteSpeed/Apache)
+
+<IfModule mod_mime.c>
+  AddType text/markdown .md
+  AddType text/plain .txt
+  AddType application/json .json
+  AddCharset utf-8 .md .txt .json
+</IfModule>
+
+# Serve the Markdown homepage to agents that ask for it
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_ACCEPT} text/markdown [NC]
+  RewriteRule ^(index\.html)?$ /index.md [L]
+</IfModule>
+
+# Tell caches that / differs by Accept header
+<IfModule mod_headers.c>
+  <FilesMatch "^(index\.html|index\.md)$">
+    Header append Vary Accept
+  </FilesMatch>
+</IfModule>

@@ -1,0 +1,47 @@
+---
+// Shared shell for simple pages (About, Contact, Privacy, Terms)
+import Layout from "./Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { breadcrumbs, webPage } from "../data/schema";
+import { SITE_URL } from "../data/site";
+
+interface Props {
+  title: string;
+  heading: string;
+  description: string;
+  eyebrow: string;
+  path: string;
+  type?: string;
+  updated?: string;
+}
+
+const { title, heading, description, eyebrow, path, type = "WebPage", updated } = Astro.props;
+const url = `${SITE_URL}${path}`;
+const schema = [
+  webPage(url, title, description, type),
+  breadcrumbs([
+    { name: "Home", url: `${SITE_URL}/` },
+    { name: heading, url },
+  ]),
+];
+---
+
+<Layout title={`${title} · Task GrowthX`} description={description} schema={schema}>
+  <a class="skip" href="#main">Skip to content</a>
+  <Header base="/" />
+  <main id="main" class="page">
+    <section class="cs-hero" aria-labelledby="page-h">
+      <div class="wrap">
+        <a class="cs-back" href="/"><span aria-hidden="true">&larr;</span> Home</a>
+        <span class="eyebrow">{eyebrow}</span>
+        <h1 class="display-lg" id="page-h">{heading}</h1>
+        <p class="body-lg muted cs-lead">{description}</p>
+        {updated && <p class="mono muted">Last updated: {updated}</p>}
+      </div>
+    </section>
+    <slot />
+  </main>
+  <Footer base="/" />
+  <script src="../scripts/nav.js"></script>
+</Layout>
