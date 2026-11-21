@@ -2,6 +2,8 @@
 title: "5 front-desk tasks a dental clinic can automate first"
 description: "Not sure where to start with automation? These five reception tasks are repetitive, rule-based and low-risk, which makes them the best first candidates."
 date: 2026-11-20
+image: "/images/blog/front-desk-tasks-to-automate-first.png"
+imageAlt: "A checklist of five automated front-desk tasks: confirming appointments, collecting booking requests, sending new-patient forms, recalling overdue patients and asking for reviews."
 tags: ["Getting started", "Front desk"]
 ---
 

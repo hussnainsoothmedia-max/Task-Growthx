@@ -2,6 +2,8 @@
 title: "How to set up appointment reminders patients actually answer"
 description: "A practical guide for dental clinics: when to send reminders, what to write, and how to turn a cancellation into a refilled slot instead of an empty chair."
 date: 2026-11-21
+image: "/images/blog/appointment-reminders-patients-answer.png"
+imageAlt: "A calendar with reminders 48 and 24 hours before an appointment, next to a phone showing a WhatsApp reminder with Confirm, Reschedule and Cancel buttons."
 tags: ["Reminders", "No-shows", "WhatsApp"]
 ---
 

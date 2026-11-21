@@ -2,6 +2,8 @@
 title: "What n8n is, and why we build clinic automations on it"
 description: "A plain-language explanation of n8n for clinic owners: what it does, why it suits dental practices, and what owning your workflows really means."
 date: 2026-11-18
+image: "/images/blog/why-we-build-on-n8n.png"
+imageAlt: "An n8n-style workflow with five completed steps: trigger, AI step, rules, calendar and booked."
 tags: ["n8n", "Automation basics"]
 ---
 

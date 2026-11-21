@@ -13,6 +13,17 @@ const compact = <T extends Record<string, unknown>>(o: T) =>
   );
 
 export function baseGraph() {
+  const a = BUSINESS.address;
+  const address = a.city || a.street
+    ? compact({
+        "@type": "PostalAddress",
+        streetAddress: a.street,
+        addressLocality: a.city,
+        addressRegion: a.region,
+        postalCode: a.postalCode,
+        addressCountry: a.country,
+      })
+    : undefined;
   const contactPoint = compact({
     "@type": "ContactPoint",
     contactType: "sales",
@@ -34,6 +45,7 @@ export function baseGraph() {
       founder: { "@id": PERSON_ID },
       email: BUSINESS.email,
       telephone: BUSINESS.phone,
+      address,
       areaServed: BUSINESS.areaServed,
       sameAs: BUSINESS.sameAs,
       contactPoint,

@@ -2,6 +2,8 @@
 title: "Should an AI answer your clinic's WhatsApp? Where to draw the line"
 description: "AI can take a lot of routine messages off reception. Here is what it should handle, what it must never handle, and how to keep your team in control."
 date: 2026-11-10
+image: "/images/blog/ai-on-clinic-whatsapp.png"
+imageAlt: "A clinic WhatsApp chat where the AI answers opening hours, and a message about a swollen tooth is passed to staff, who offer a same-day slot."
 tags: ["AI", "WhatsApp", "Safety"]
 ---
 

@@ -33,7 +33,7 @@ const schema = [
     author: { "@id": PERSON_ID },
     publisher: { "@id": ORG_ID },
     isPartOf: { "@id": WEBSITE_ID },
-    image: BUSINESS.photo,
+    image: d.image ? `${SITE_URL}${d.image}` : BUSINESS.photo,
     keywords: d.tags.join(", "),
     inLanguage: "en",
   },
@@ -45,7 +45,7 @@ const schema = [
 ];
 ---
 
-<Layout title={`${d.title} · Task GrowthX`} description={d.description} ogType="article" schema={schema}>
+<Layout title={`${d.title} · Task GrowthX`} description={d.description} ogType="article" schema={schema} image={d.image} imageAlt={d.imageAlt}>
   <a class="skip" href="#main">Skip to content</a>
   <Header base="/" />
   <main id="main">
@@ -63,6 +63,13 @@ const schema = [
           {d.tags.length > 0 && <div class="post-tags">{d.tags.map((t) => <span class="badge badge--neutral">{t}</span>)}</div>}
         </div>
       </header>
+      {d.image && (
+        <div class="wrap post-wrap">
+          <figure class="post-hero-img">
+            <img src={d.image} alt={d.imageAlt} width="1200" height="630" />
+          </figure>
+        </div>
+      )}
       <div class="wrap post-wrap">
         <div class="post-body prose">
           <Content />

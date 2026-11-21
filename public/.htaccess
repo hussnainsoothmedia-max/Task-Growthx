@@ -20,3 +20,23 @@
     Header append Vary Accept
   </FilesMatch>
 </IfModule>
+
+# RFC 8288 Link headers: point agents at llms.txt (every page)
+# and at the Markdown version of the homepage (homepage only)
+<IfModule mod_setenvif.c>
+  SetEnvIf Request_URI "^/(index\.html)?$" IS_HOME
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\.html$">
+    Header add Link "</llms.txt>; rel=\"describedby\"; type=\"text/plain\""
+    Header add Link "</index.md>; rel=\"alternate\"; type=\"text/markdown\"" env=IS_HOME
+    Header add Link "</sitemap.xml>; rel=\"sitemap\"; type=\"application/xml\"" env=IS_HOME
+  </FilesMatch>
+</IfModule>
+
+# MCP endpoint: let the PHP script answer POST/GET at /mcp/
+<IfModule mod_headers.c>
+  <FilesMatch "^server-card\.json$">
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
+</IfModule>

@@ -16,6 +16,7 @@ const blogSchema = {
     headline: p.data.title,
     url: `${SITE_URL}/blog/${p.id}/`,
     datePublished: p.data.date.toISOString(),
+    image: p.data.image ? `${SITE_URL}${p.data.image}` : undefined,
     author: { "@id": PERSON_ID },
   })),
 };
@@ -39,6 +40,9 @@ const blogSchema = {
           {posts.map((p) => (
             <li>
               <a class="post-card" href={`/blog/${p.id}/`}>
+                {p.data.image && (
+                  <img class="post-cover" src={p.data.image} alt="" width="1200" height="630" loading="lazy" decoding="async" />
+                )}
                 <div class="post-meta mono">
                   <time datetime={p.data.date.toISOString()}>{formatDate(p.data.date)}</time>
                   <span>· {readingTime(p.body)} min read</span>

@@ -2,6 +2,8 @@
 title: "Patient recalls: bringing overdue patients back without a phone call"
 description: "How to turn a growing recall list into a weekly routine that runs on its own, with personal messages, a booking link and a gentle follow-up."
 date: 2026-11-14
+image: "/images/blog/patient-recalls-without-phone-calls.png"
+imageAlt: "A six-month recall cycle next to a personal recall message inviting a patient to book check-ups with a Pick a time button."
 tags: ["Recalls", "Patient retention"]
 ---
 

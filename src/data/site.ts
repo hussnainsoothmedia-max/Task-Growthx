@@ -17,6 +17,8 @@ export const BUSINESS = {
   // Public contact details. Leave "" to hide.
   email: "", // e.g. "hello@hussnainahmad.com"
   phone: "", // international format, e.g. "+923001234567"
+  // Business address. Leave fields "" to hide. country = 2-letter code, e.g. "PK".
+  address: { street: "", city: "", region: "", postalCode: "", country: "" },
   areaServed: "Worldwide",
   // Full URLs of your public profiles (LinkedIn, Instagram, YouTube, GitHub, Upwork...)
   sameAs: [] as string[],
