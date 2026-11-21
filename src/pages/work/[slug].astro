@@ -1,0 +1,147 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { caseStudies, type CaseStudy } from "../../data/caseStudies";
+import { CAL_URL } from "../../config";
+
+export function getStaticPaths() {
+  return caseStudies.map((cs, i) => ({
+    params: { slug: cs.slug },
+    props: { cs, next: caseStudies[(i + 1) % caseStudies.length] },
+  }));
+}
+
+interface Props {
+  cs: CaseStudy;
+  next: CaseStudy;
+}
+
+const { cs, next } = Astro.props;
+const pageTitle = `${cs.title} · Case study · GrowthX`;
+---
+
+<Layout title={pageTitle} description={cs.lead} ogTitle={`${cs.title} · GrowthX`} ogType="article">
+  <a class="skip" href="#main">Skip to content</a>
+  <Header base="/" />
+  <main id="main" class="cs">
+    <section class="cs-hero" aria-labelledby="cs-h">
+      <div class="wrap">
+        <a class="cs-back" href="/#work"><span aria-hidden="true">&larr;</span> All work</a>
+        <div class="project-meta">
+          <span class="badge badge--line">Demo build</span>
+          <span class="badge badge--neutral">{cs.clinic}</span>
+        </div>
+        <h1 class="display-lg" id="cs-h">{cs.title}</h1>
+        <p class="body-lg muted cs-lead">{cs.lead}</p>
+        <dl class="cs-facts">
+          <div><dt>Clinic type</dt><dd>{cs.clinic}</dd></div>
+          <div><dt>Channels</dt><dd>{cs.channels}</dd></div>
+          <div><dt>Built on</dt><dd>n8n</dd></div>
+          <div><dt>Typical build time</dt><dd>{cs.buildTime}</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="cs-shot-wrap" aria-label="Workflow">
+      <div class="wrap">
+        <figure class="cs-shot">
+          <img src={cs.image} alt={cs.imageAlt} width="1200" height="560" />
+          <figcaption class="mono">The n8n workflow behind this build</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section cs-block" aria-labelledby="cs-problem">
+      <div class="wrap cs-grid">
+        <div class="cs-side">
+          <span class="eyebrow">01 · The challenge</span>
+          <h2 class="display-md" id="cs-problem">Where the time goes</h2>
+        </div>
+        <div class="cs-main">
+          {cs.problem.map((p) => <p class="body-lg">{p}</p>)}
+          <ul class="cs-pains">
+            {cs.painPoints.map((p) => <li>{p}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cs-block" aria-labelledby="cs-flow">
+      <div class="wrap cs-grid">
+        <div class="cs-side">
+          <span class="eyebrow">02 · The workflow</span>
+          <h2 class="display-md" id="cs-flow">How it runs, step by step</h2>
+          <p class="muted">{cs.solution}</p>
+        </div>
+        <ol class="cs-steps">
+          {cs.steps.map((s) => (
+            <li>
+              <div class="cs-step-head">
+                <h3>{s.title}</h3>
+                <span class="mono cs-node">{s.node}</span>
+              </div>
+              <p>{s.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="section cs-block" aria-labelledby="cs-change">
+      <div class="wrap cs-grid">
+        <div class="cs-side">
+          <span class="eyebrow">03 · What changes</span>
+          <h2 class="display-md" id="cs-change">Before and after</h2>
+        </div>
+        <div class="cs-main">
+          <div class="cs-ba">
+            <div class="cs-ba-col">
+              <h3>Before</h3>
+              <ul>{cs.before.map((b) => <li>{b}</li>)}</ul>
+            </div>
+            <div class="cs-ba-col cs-ba-col--after">
+              <h3>After</h3>
+              <ul>{cs.after.map((a) => <li>{a}</li>)}</ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cs-block" aria-labelledby="cs-tools">
+      <div class="wrap cs-grid">
+        <div class="cs-side">
+          <span class="eyebrow">04 · Stack and safeguards</span>
+          <h2 class="display-md" id="cs-tools">Built carefully</h2>
+        </div>
+        <div class="cs-main">
+          <h3 class="cs-sub">Tools</h3>
+          <ul class="cs-tools">{cs.tools.map((t) => <li class="chip">{t}</li>)}</ul>
+          <h3 class="cs-sub">Safeguards</h3>
+          <ul class="cs-safe">{cs.safeguards.map((s) => <li>{s}</li>)}</ul>
+          <p class="demo-note">This is a demonstration project built to show our approach. It is not presented as a client result.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="cs-cta" style="padding-top:0">
+      <div class="wrap">
+        <div class="cs-cta">
+          <div>
+            <span class="eyebrow">Book a discovery call</span>
+            <h2 class="display-md" id="cs-cta">Want this running in your clinic?</h2>
+            <p class="body-lg muted">In 30 minutes we map one workflow worth automating and show you a live build.</p>
+          </div>
+          <a class="btn btn--primary" href={CAL_URL}>Book a discovery call <span class="arr" aria-hidden="true">&rarr;</span></a>
+        </div>
+        <a class="cs-next" href={`/work/${next.slug}/`}>
+          <span class="mono">Next case study</span>
+          <span class="cs-next-title">{next.title} <span class="arr" aria-hidden="true">&rarr;</span></span>
+        </a>
+      </div>
+    </section>
+  </main>
+  <Footer base="/" />
+  <script src="../../scripts/nav.js"></script>
+</Layout>

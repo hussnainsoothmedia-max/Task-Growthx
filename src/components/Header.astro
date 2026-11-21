@@ -1,10 +1,11 @@
 ---
 import { CAL_URL } from "../config";
+const { base = "" } = Astro.props;
 ---
 <header class="nav-shell" id="top">
   <div class="wrap">
     <nav class="nav" aria-label="Main">
-      <a class="nav-brand" href="#hero" aria-label="Hussnain Ahmad home">
+      <a class="nav-brand" href={base + "#hero"} aria-label="Hussnain Ahmad home">
         <svg
           class="logo"
           viewBox="0 0 336.3 64"
@@ -15,11 +16,10 @@ import { CAL_URL } from "../config";
         </svg>
       </a>
       <ul class="nav-links">
-        <li><a href="#hero" data-sec="hero">Home</a></li>
-        <li><a href="#about" data-sec="about">About</a></li>
-        <li><a href="#services" data-sec="services">Services</a></li>
-        <li><a href="#process" data-sec="process">Process</a></li>
-        <li><a href="#contact" data-sec="contact">Contact</a></li>
+        <li><a href={base + "#hero"} data-sec="hero">Home</a></li>
+        <li><a href={base + "#services"} data-sec="services">Services</a></li>
+        <li><a href={base + "#process"} data-sec="process">Process</a></li>
+        <li><a href={base + "#about"} data-sec="about">About</a></li>
       </ul>
       <div class="nav-actions">
         <a class="btn btn--primary" href={CAL_URL}
@@ -40,11 +40,11 @@ import { CAL_URL } from "../config";
     </nav>
     <div class="mobile-menu" id="mobile-menu" hidden>
       <ul>
-        <li><a href="#hero">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#process">Process</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href={base + "#hero"}>Home</a></li>
+        <li><a href={base + "#about"}>About</a></li>
+        <li><a href={base + "#services"}>Services</a></li>
+        <li><a href={base + "#process"}>Process</a></li>
+        <li><a href={base + "#contact"}>Contact</a></li>
       </ul>
       <a class="btn btn--primary" href={CAL_URL}>Book a discovery call</a>
     </div>

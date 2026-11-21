@@ -3,41 +3,12 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 window.gsap = gsap;
 window.ScrollTrigger = ScrollTrigger;
 
+import "./nav.js";
+
   (function () {
-    document.documentElement.classList.add("js");
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Sticky nav hairline
     var shell = document.querySelector(".nav-shell");
-    function onScroll() {
-      shell.classList.toggle("scrolled", window.scrollY > 8);
-    }
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-
-    // Mobile menu
-    var btn = document.getElementById("menu-btn"),
-      menu = document.getElementById("mobile-menu");
-    function setMenu(open) {
-      btn.setAttribute("aria-expanded", open);
-      btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-      menu.hidden = !open;
-    }
-    btn.addEventListener("click", function () {
-      setMenu(menu.hidden);
-    });
-    menu.addEventListener("click", function (e) {
-      if (e.target.closest("a")) setMenu(false);
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && !menu.hidden) {
-        setMenu(false);
-        btn.focus();
-      }
-    });
-    window.addEventListener("resize", function () {
-      if (window.innerWidth > 960) setMenu(false);
-    });
 
     // In-page links: scroll with JS so Home always returns to the top and the sticky nav never covers a heading
     document.addEventListener("click", function (e) {
@@ -107,6 +78,7 @@ window.ScrollTrigger = ScrollTrigger;
       var ease = "power3.out";
 
       function splitWords(el) {
+        if (!el) return [];
         var text = el.textContent.trim().replace(/\s+/g, " ");
         el.setAttribute("aria-label", text);
         el.innerHTML = text
@@ -124,11 +96,6 @@ window.ScrollTrigger = ScrollTrigger;
 
       // Hero intro timeline
       var heroWords = splitWords(document.getElementById("hero-h"));
-      var edges = gsap.utils.toArray(".wf-edge");
-      edges.forEach(function (p) {
-        var l = p.getTotalLength();
-        gsap.set(p, { strokeDasharray: l, strokeDashoffset: l });
-      });
       var tl = gsap.timeline({ defaults: { ease: ease } });
       // Safety net: if the browser pauses animation frames (background tab, throttled frame),
       // jump the intro to its finished state so nothing in the hero stays hidden.
@@ -164,45 +131,13 @@ window.ScrollTrigger = ScrollTrigger;
           0.25,
         )
         .from(
-          ".wf-node",
-          {
-            scale: 0.8,
-            autoAlpha: 0,
-            transformOrigin: "50% 50%",
-            duration: 0.5,
-            stagger: 0.09,
-            ease: "back.out(1.6)",
-          },
-          0.75,
-        )
-        .to(
-          edges,
-          {
-            strokeDashoffset: 0,
-            duration: 0.6,
-            stagger: 0.1,
-            ease: "power2.inOut",
-          },
-          1.05,
-        )
-        .from(
-          ".wf-port, .wf-label",
-          { autoAlpha: 0, duration: 0.3, stagger: 0.015 },
-          1.4,
-        )
-        .from(
-          ".flow-log .row",
-          { x: -12, autoAlpha: 0, duration: 0.45, stagger: 0.12 },
-          1.5,
-        )
-        .from(
           ".facts > div",
           { y: 24, autoAlpha: 0, duration: 0.7, stagger: 0.08 },
           1,
         );
 
       // Gentle parallax on the hero mockup
-      gsap.to(".hero-visual .flow-card", {
+      gsap.to(".hero-visual .hv", {
         yPercent: -8,
         ease: "none",
         scrollTrigger: {
@@ -412,11 +347,9 @@ window.ScrollTrigger = ScrollTrigger;
           0.45,
         )
         .from(
-          wide.querySelectorAll(
-            ".preview .node, .preview .arrow, .preview .chip",
-          ),
-          { x: 40, autoAlpha: 0, duration: 0.5, stagger: 0.06 },
-          0.6,
+          wide.querySelectorAll(".project-shot img"),
+          { scale: 1.08, autoAlpha: 0, duration: 0.9 },
+          0.55,
         );
       gsap.utils
         .toArray(".project:not(.project--wide)")
@@ -438,13 +371,12 @@ window.ScrollTrigger = ScrollTrigger;
               },
             },
           );
-          gsap.from(card.querySelectorAll(".preview .node, .preview .arrow"), {
-            scale: 0.85,
+          gsap.from(card.querySelectorAll(".project-shot img"), {
+            scale: 1.08,
             autoAlpha: 0,
-            duration: 0.45,
-            stagger: 0.06,
-            ease: "back.out(1.6)",
-            scrollTrigger: once(card, "top 70%"),
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: once(card, "top 80%"),
           });
         });
       fade(".demo-note");
@@ -513,7 +445,7 @@ window.ScrollTrigger = ScrollTrigger;
       });
 
       // ABOUT: heading words slide in from the right; principles pop on the grid;
-      // the week card swings open in 3D and its rows wipe in
+      // the photo opens on the right
       gsap.from(splitWords(document.getElementById("about-h")), {
         xPercent: 60,
         autoAlpha: 0,
@@ -531,27 +463,45 @@ window.ScrollTrigger = ScrollTrigger;
         stagger: { each: 0.1, grid: "auto", from: "start" },
         scrollTrigger: once(".principles", "top 90%"),
       });
-      gsap.from("#week", {
-        rotationY: -28,
-        x: 50,
+      // About: the photo opens like a curtain from the bottom while the image
+      // settles from a zoom, then drifts gently on scroll; skills pop in on the left
+      var mePhoto = document.querySelector(".me-photo");
+      if (mePhoto) {
+        var meTl = gsap.timeline({ defaults: { ease: ease }, paused: true });
+        playOnce(meTl, mePhoto, "top 85%");
+        meTl
+          .fromTo(
+            mePhoto,
+            { clipPath: "inset(100% 0% 0% 0% round 24px)" },
+            { clipPath: "inset(0% 0% 0% 0% round 24px)", duration: 1.1, ease: "power3.inOut" },
+          )
+          .fromTo(".me-photo img", { scale: 1.35 }, { scale: 1.1, duration: 1.5, ease: "power3.out" }, 0)
+          .from(".me-tag", { y: 16, autoAlpha: 0, duration: 0.5 }, 0.8);
+        gsap.fromTo(
+          ".me-photo img",
+          { yPercent: -4 },
+          {
+            yPercent: 4,
+            ease: "none",
+            scrollTrigger: { trigger: "#about", start: "top bottom", end: "bottom top", scrub: 0.6 },
+          },
+        );
+      }
+      gsap.from(".about-copy .me-skills li", {
+        scale: 0.7,
         autoAlpha: 0,
-        transformPerspective: 1100,
-        transformOrigin: "100% 50%",
-        duration: 1.2,
-        ease: ease,
-        scrollTrigger: once("#week", "top 88%"),
+        duration: 0.45,
+        stagger: 0.06,
+        ease: "back.out(1.8)",
+        scrollTrigger: once(".about-copy .me-skills", "top 90%"),
       });
-      gsap.fromTo(
-        "#week .tasks li",
-        { clipPath: "inset(0% 100% 0% 0%)" },
-        {
-          clipPath: "inset(0% 0% 0% 0%)",
-          duration: 0.7,
-          ease: "power2.inOut",
-          stagger: 0.09,
-          scrollTrigger: once("#week", "top 78%"),
-        },
-      );
+      gsap.from(".about-copy .me-link", {
+        x: -16,
+        autoAlpha: 0,
+        duration: 0.5,
+        ease: ease,
+        scrollTrigger: once(".about-copy .me-link", "top 95%"),
+      });
 
       // FAQ: heading words drop in from above; questions slide in from the right
       gsap.from(splitWords(document.getElementById("faq-h")), {
@@ -750,7 +700,7 @@ window.ScrollTrigger = ScrollTrigger;
 
     // Before / after week
     var week = document.getElementById("week");
-    week.querySelectorAll(".toggle button").forEach(function (b) {
+    if (week) week.querySelectorAll(".toggle button").forEach(function (b) {
       b.addEventListener("click", function () {
         var mode = b.dataset.mode;
         week.dataset.mode = mode;
@@ -782,6 +732,7 @@ window.ScrollTrigger = ScrollTrigger;
     var email = document.getElementById("f-email"),
       emailErr = document.getElementById("f-email-err"),
       nameI = document.getElementById("f-name");
+    if (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
@@ -815,4 +766,5 @@ window.ScrollTrigger = ScrollTrigger;
         form.hidden = false;
         nameI.focus();
       });
+    }
   })();

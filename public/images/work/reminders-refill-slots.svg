@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" font-family="Inter, system-ui, sans-serif" role="img" aria-label="Reminders → refill cancelled slots">
+<defs>
+  <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.3" fill="#d9d4cc"/></pattern>
+  <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#9c9fa5"/></marker>
+</defs>
+<rect width="1200" height="560" fill="#f7f4f0"/>
+<rect width="1200" height="560" fill="url(#dots)"/>
+<g>
+  <rect x="24" y="22" width="1152" height="44" rx="10" fill="#fff" stroke="#e4dfd8"/>
+  <circle cx="48" cy="44" r="5" fill="#ff5f57"/><circle cx="66" cy="44" r="5" fill="#febc2e"/><circle cx="84" cy="44" r="5" fill="#28c840"/>
+  <text x="110" y="49" font-size="14" font-weight="500" fill="#111">Reminders → refill cancelled slots</text>
+  <rect x="1050" y="32" width="102" height="24" rx="12" fill="#eef7f0"/>
+  <circle cx="1066" cy="44" r="4" fill="#2f9e5b"/>
+  <text x="1108" y="48" text-anchor="middle" font-size="12" fill="#2f9e5b" font-weight="500">Active</text>
+</g>
+<path d="M154 292 C200 292, 200 292, 246 292" fill="none" stroke="#9c9fa5" stroke-width="2" marker-end="url(#arr)"/>
+<path d="M334 292 C380 292, 380 292, 426 292" fill="none" stroke="#9c9fa5" stroke-width="2" marker-end="url(#arr)"/>
+<path d="M514 292 C560 292, 560 292, 606 292" fill="none" stroke="#9c9fa5" stroke-width="2" marker-end="url(#arr)"/>
+<path d="M694 292 C755 292, 755 152, 816 152" fill="none" stroke="#9c9fa5" stroke-width="2" marker-end="url(#arr)"/><rect x="725" y="211" width="60" height="20" rx="10" fill="#fff" stroke="#d3cec6"/><text x="755" y="225" text-anchor="middle" font-size="11" fill="#626260">yes</text>
+<path d="M694 292 C755 292, 755 292, 816 292" fill="none" stroke="#9c9fa5" stroke-width="2" marker-end="url(#arr)"/><rect x="725" y="281" width="60" height="20" rx="10" fill="#fff" stroke="#d3cec6"/><text x="755" y="295" text-anchor="middle" font-size="11" fill="#626260">move</text>
+<path d="M694 292 C755 292, 755 442, 816 442" fill="none" stroke="#9c9fa5" stroke-width="2" marker-end="url(#arr)"/><rect x="725" y="356" width="60" height="20" rx="10" fill="#fff" stroke="#d3cec6"/><text x="755" y="370" text-anchor="middle" font-size="11" fill="#626260">cancel</text>
+<path d="M904 152 C970 152, 970 292, 1036 292" fill="none" stroke="#9c9fa5" stroke-width="2" marker-end="url(#arr)"/>
+<path d="M904 292 C970 292, 970 292, 1036 292" fill="none" stroke="#9c9fa5" stroke-width="2" marker-end="url(#arr)"/>
+<path d="M904 442 C970 442, 970 292, 1036 292" fill="none" stroke="#9c9fa5" stroke-width="2" marker-end="url(#arr)"/>
+<g>
+  <path d="M112 250 H142 Q154 250 154 262 V322 Q154 334 142 334 H112 A42 42 0 0 1 112 250 Z" fill="#fff4ec" stroke="#ff5600" stroke-width="2"/>
+  <text x="112" y="302" text-anchor="middle" font-size="28" font-weight="600" fill="#ff5600">◷</text>
+  
+  <text x="112" y="358" text-anchor="middle" font-size="15" font-weight="500" fill="#111">Every hour</text>
+  <text x="112" y="376" text-anchor="middle" font-size="12" fill="#7b7b78" font-family="JetBrains Mono, monospace">schedule</text>
+</g>
+<g>
+  <rect x="250" y="250" width="84" height="84" rx="12" fill="#ffffff" stroke="#c9c4bc" stroke-width="2"/>
+  <text x="292" y="302" text-anchor="middle" font-size="28" font-weight="600" fill="#111111">▦</text>
+  
+  <text x="292" y="358" text-anchor="middle" font-size="15" font-weight="500" fill="#111">Get appts</text>
+  <text x="292" y="376" text-anchor="middle" font-size="12" fill="#7b7b78" font-family="JetBrains Mono, monospace">T-48h · T-24h</text>
+</g>
+<g>
+  <rect x="430" y="250" width="84" height="84" rx="12" fill="#ffffff" stroke="#c9c4bc" stroke-width="2"/>
+  <text x="472" y="302" text-anchor="middle" font-size="28" font-weight="600" fill="#111111">✉</text>
+  
+  <text x="472" y="358" text-anchor="middle" font-size="15" font-weight="500" fill="#111">Send reminder</text>
+  <text x="472" y="376" text-anchor="middle" font-size="12" fill="#7b7b78" font-family="JetBrains Mono, monospace">sms · whatsapp</text>
+</g>
+<g>
+  <rect x="610" y="250" width="84" height="84" rx="12" fill="#ffffff" stroke="#c9c4bc" stroke-width="2"/>
+  <text x="652" y="302" text-anchor="middle" font-size="28" font-weight="600" fill="#626260">⑂</text>
+  
+  <text x="652" y="358" text-anchor="middle" font-size="15" font-weight="500" fill="#111">Reply</text>
+  <text x="652" y="376" text-anchor="middle" font-size="12" fill="#7b7b78" font-family="JetBrains Mono, monospace">switch</text>
+</g>
+<g>
+  <rect x="820" y="110" width="84" height="84" rx="12" fill="#eef7f0" stroke="#2f9e5b" stroke-width="2"/>
+  <text x="862" y="162" text-anchor="middle" font-size="28" font-weight="600" fill="#2f9e5b">✓</text>
+  
+  <text x="862" y="218" text-anchor="middle" font-size="15" font-weight="500" fill="#111">Confirmed</text>
+  <text x="862" y="236" text-anchor="middle" font-size="12" fill="#7b7b78" font-family="JetBrains Mono, monospace">update pms</text>
+</g>
+<g>
+  <rect x="820" y="250" width="84" height="84" rx="12" fill="#ffffff" stroke="#c9c4bc" stroke-width="2"/>
+  <text x="862" y="302" text-anchor="middle" font-size="28" font-weight="600" fill="#111111">↻</text>
+  
+  <text x="862" y="358" text-anchor="middle" font-size="15" font-weight="500" fill="#111">Reschedule</text>
+  <text x="862" y="376" text-anchor="middle" font-size="12" fill="#7b7b78" font-family="JetBrains Mono, monospace">offer slots</text>
+</g>
+<g>
+  <rect x="820" y="400" width="84" height="84" rx="12" fill="#ffffff" stroke="#c9c4bc" stroke-width="2"/>
+  <text x="862" y="452" text-anchor="middle" font-size="28" font-weight="600" fill="#111111">≡</text>
+  
+  <text x="862" y="508" text-anchor="middle" font-size="15" font-weight="500" fill="#111">Offer waitlist</text>
+  <text x="862" y="526" text-anchor="middle" font-size="12" fill="#7b7b78" font-family="JetBrains Mono, monospace">loop + wait</text>
+</g>
+<g>
+  <rect x="1040" y="250" width="84" height="84" rx="12" fill="#eef7f0" stroke="#2f9e5b" stroke-width="2"/>
+  <text x="1082" y="302" text-anchor="middle" font-size="28" font-weight="600" fill="#2f9e5b">☰</text>
+  
+  <text x="1082" y="358" text-anchor="middle" font-size="15" font-weight="500" fill="#111">Morning report</text>
+  <text x="1082" y="376" text-anchor="middle" font-size="12" fill="#7b7b78" font-family="JetBrains Mono, monospace">email</text>
+</g>
+</svg>

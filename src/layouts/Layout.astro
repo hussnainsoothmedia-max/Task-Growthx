@@ -5,11 +5,19 @@ import LogoSprite from "../components/LogoSprite.astro";
 interface Props {
   title?: string;
   description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogType?: string;
 }
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
 
 const {
   title = "GrowthX",
   description = "GrowthX builds AI automation for dental clinics: online booking, appointment reminders, patient recalls and front-desk workflows on n8n.",
+  ogTitle = "GrowthX · AI automation for dental clinics",
+  ogDescription = "We build intelligent systems that keep your dental chairs full: online booking, reminders, recalls and an AI front-desk assistant.",
+  ogType = "website",
 } = Astro.props;
 ---
 
@@ -20,12 +28,10 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta property="og:title" content="GrowthX · AI automation for dental clinics" />
-    <meta
-      property="og:description"
-      content="We build intelligent systems that keep your dental chairs full: online booking, reminders, recalls and an AI front-desk assistant."
-    />
-    <meta property="og:type" content="website" />
+    <meta property="og:title" content={ogTitle ?? title} />
+    <meta property="og:description" content={ogDescription ?? description} />
+    <meta property="og:type" content={ogType} />
+    <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -37,6 +43,5 @@ const {
   <body>
     <LogoSprite />
     <slot />
-    <script src="../scripts/main.js"></script>
   </body>
 </html>

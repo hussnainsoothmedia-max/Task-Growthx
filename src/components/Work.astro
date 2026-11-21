@@ -1,3 +1,7 @@
+---
+import { caseStudies } from "../data/caseStudies";
+---
+
 <section class="section" id="work" aria-labelledby="work-h">
   <div class="wrap">
     <div class="section-head">
@@ -9,88 +13,42 @@
     </div>
 
     <div class="work-grid">
-      <article class="project project--wide rv">
-        <div class="copy">
-          <div class="project-meta"><span class="badge badge--line">Demo build</span><span class="badge badge--neutral">General dentistry</span></div>
-          <h3>Website enquiry to booked appointment</h3>
-          <dl>
-            <div><dt>Challenge</dt><dd>Enquiries arrive through the website, WhatsApp, Google and the phone. Receptionists retype each one into the schedule and reply by hand.</dd></div>
-            <div><dt>Automation solution</dt><dd>One intake workflow collects every channel, an AI step reads the request, and patients choose an open slot themselves.</dd></div>
-          </dl>
-          <details class="case">
-            <summary>View case study <span class="arr" aria-hidden="true">&rarr;</span></summary>
-            <ol>
-              <li><span><b>Capture.</b> The website form, WhatsApp Business and Google Business messages all feed one n8n webhook.</span></li>
-              <li><span><b>Understand.</b> An AI step pulls out the treatment, preferred times and urgency, and flags pain or swelling for staff.</span></li>
-              <li><span><b>Offer.</b> The calendar returns open slots, and the patient picks one from a short message.</span></li>
-              <li><span><b>Confirm.</b> The booking is written to the practice software and a reminder is scheduled for the day before.</span></li>
-            </ol>
-          </details>
-        </div>
-        <div class="preview" aria-hidden="true">
-          <div class="mini-flow">
-            <div class="node"><b>3 channels</b><span class="mono">web · wa · google</span></div><span class="arrow">&rarr;</span>
-            <div class="node ai"><div class="row-t"><b>Read request</b><span class="badge badge--ai">AI</span></div><span class="mono">treatment, urgency</span></div><span class="arrow">&rarr;</span>
-            <div class="node"><b>Find slots</b><span class="mono">calendar.free()</span></div><span class="arrow">&rarr;</span>
-            <div class="node"><b>Confirm + remind</b><span class="mono">T-24h</span></div>
-          </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px">
-            <span class="chip">Flags pain or swelling for staff</span>
-            <span class="chip">Patient chooses the slot</span>
-          </div>
-        </div>
-      </article>
-
-      <article class="project rv">
-        <div class="project-meta"><span class="badge badge--line">Demo build</span><span class="badge badge--neutral">Multi-chair clinic</span></div>
-        <div class="preview" aria-hidden="true">
-          <div class="mini-flow">
-            <div class="node"><b>Appointment</b><span class="mono">T-48h</span></div><span class="arrow">&rarr;</span>
-            <div class="node"><b>Reminder</b><span class="mono">sms · whatsapp</span></div><span class="arrow">&rarr;</span>
-            <div class="node"><b>Waitlist</b><span class="mono">offer slot</span></div>
-          </div>
-        </div>
-        <h3>Reminders that refill cancelled slots</h3>
-        <dl>
-          <div><dt>Challenge</dt><dd>Missed appointments leave chairs empty, and staff spend mornings calling patients to confirm.</dd></div>
-          <div><dt>Automation solution</dt><dd>Patients confirm or reschedule in one tap, and any freed slot is offered to waitlist patients automatically.</dd></div>
-        </dl>
-        <details class="case">
-          <summary>View case study <span class="arr" aria-hidden="true">&rarr;</span></summary>
-          <ol>
-            <li><span><b>Remind.</b> SMS or WhatsApp goes out 48 and 24 hours before each appointment.</span></li>
-            <li><span><b>Respond.</b> The patient confirms, reschedules or cancels with one tap.</span></li>
-            <li><span><b>Refill.</b> A cancelled slot is offered to waitlist patients in order until someone takes it.</span></li>
-            <li><span><b>Report.</b> Reception gets a morning summary of confirmations and remaining gaps.</span></li>
-          </ol>
-        </details>
-      </article>
-
-      <article class="project rv">
-        <div class="project-meta"><span class="badge badge--line">Demo build</span><span class="badge badge--neutral">Family dental practice</span></div>
-        <div class="preview" aria-hidden="true">
-          <div class="mini-flow">
-            <div class="node"><b>Last visit</b><span class="mono">6 months ago</span></div><span class="arrow">&rarr;</span>
-            <div class="node ai"><div class="row-t"><b>Personalize</b><span class="badge badge--ai">AI</span></div><span class="mono">name, treatment</span></div><span class="arrow">&rarr;</span>
-            <div class="node"><b>Recall message</b><span class="mono">with booking link</span></div><span class="arrow">&rarr;</span>
-            <div class="node"><b>Review request</b><span class="mono">after visit</span></div>
-          </div>
-        </div>
-        <h3>Recalls and reviews on autopilot</h3>
-        <dl>
-          <div><dt>Challenge</dt><dd>The recall list grows every month, and nobody has time to contact overdue patients or ask happy ones for a review.</dd></div>
-          <div><dt>Automation solution</dt><dd>Each week the workflow finds patients who are due, sends a personal message with a booking link, and asks for a review after the visit.</dd></div>
-        </dl>
-        <details class="case">
-          <summary>View case study <span class="arr" aria-hidden="true">&rarr;</span></summary>
-          <ol>
-            <li><span><b>Find.</b> The workflow pulls patients due for a check-up or cleaning from the practice software.</span></li>
-            <li><span><b>Write.</b> AI personalizes each message with the patient's name and last treatment.</span></li>
-            <li><span><b>Book.</b> The message includes a link to open slots, so patients book without calling.</span></li>
-            <li><span><b>Review.</b> After the visit, a short review request goes out. Staff see any negative feedback first.</span></li>
-          </ol>
-        </details>
-      </article>
+      {caseStudies.map((cs, i) => {
+        const wide = i === 0;
+        const shot = (
+          <a class="project-shot" href={`/work/${cs.slug}/`} tabindex="-1" aria-hidden="true">
+            <img src={cs.image} alt="" width="1200" height="560" loading="lazy" decoding="async" />
+          </a>
+        );
+        const body = (
+          <>
+            <div class="project-meta">
+              <span class="badge badge--line">Demo build</span>
+              <span class="badge badge--neutral">{cs.clinic}</span>
+            </div>
+            <h3>{cs.title}</h3>
+            <dl>
+              <div><dt>Challenge</dt><dd>{cs.challenge}</dd></div>
+              <div><dt>Automation solution</dt><dd>{cs.solution}</dd></div>
+            </dl>
+            <a class="case-link" href={`/work/${cs.slug}/`}>
+              View case study <span class="visually-hidden">: {cs.title}</span>
+              <span class="arr" aria-hidden="true">&rarr;</span>
+            </a>
+          </>
+        );
+        return wide ? (
+          <article class="project project--wide rv">
+            <div class="copy">{body}</div>
+            {shot}
+          </article>
+        ) : (
+          <article class="project rv">
+            {shot}
+            {body}
+          </article>
+        );
+      })}
     </div>
     <p class="demo-note">These are demonstration projects built to show our approach for dental clinics. They are not presented as client results. Ask us on a call and we will walk you through a live build.</p>
   </div>
