@@ -16,12 +16,16 @@ export const BUSINESS = {
   bookingUrl: CAL_URL,
   // Public contact details. Leave "" to hide.
   email: "", // e.g. "hello@hussnainahmad.com"
-  phone: "", // international format, e.g. "+923001234567"
+  phone: "+923277818977",
   // Business address. Leave fields "" to hide. country = 2-letter code, e.g. "PK".
-  address: { street: "", city: "", region: "", postalCode: "", country: "" },
+  address: { street: "", city: "Lahore", region: "Punjab", postalCode: "", country: "PK" },
   areaServed: "Worldwide",
   // Full URLs of your public profiles (LinkedIn, Instagram, YouTube, GitHub, Upwork...)
-  sameAs: [] as string[],
+  sameAs: [
+    "https://www.linkedin.com/in/hussnaincode/",
+    "https://www.instagram.com/hussnaincode/",
+    "https://www.youtube.com/@HussnainCode",
+  ] as string[],
 };
 
 export const SERVICES = [

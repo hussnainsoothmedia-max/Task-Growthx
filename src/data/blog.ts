@@ -11,3 +11,6 @@ export const formatDate = (d: Date) =>
 
 // Rough reading time from the Markdown body
 export const readingTime = (body = "") => Math.max(1, Math.round(body.split(/\s+/).length / 220));
+
+// Bump when cover images change, so browsers and the CDN fetch the new files
+export const IMG_VERSION = 2;

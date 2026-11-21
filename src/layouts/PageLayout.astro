@@ -15,9 +15,10 @@ interface Props {
   type?: string;
   updated?: string;
   extraSchema?: Record<string, unknown>[];
+  showHero?: boolean;
 }
 
-const { title, heading, description, eyebrow, path, type = "WebPage", updated, extraSchema = [] } = Astro.props;
+const { title, heading, description, eyebrow, path, type = "WebPage", updated, extraSchema = [], showHero = true } = Astro.props;
 const url = `${SITE_URL}${path}`;
 const schema = [
   webPage(url, title, description, type),
@@ -33,6 +34,7 @@ const schema = [
   <a class="skip" href="#main">Skip to content</a>
   <Header base="/" />
   <main id="main" class="page">
+    {showHero && (
     <section class="cs-hero" aria-labelledby="page-h">
       <div class="wrap">
         <a class="cs-back" href="/"><span aria-hidden="true">&larr;</span> Home</a>
@@ -42,6 +44,7 @@ const schema = [
         {updated && <p class="mono muted">Last updated: {updated}</p>}
       </div>
     </section>
+    )}
     <slot />
   </main>
   <Footer base="/" />

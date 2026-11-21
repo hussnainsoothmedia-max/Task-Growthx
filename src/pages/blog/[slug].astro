@@ -3,7 +3,7 @@ import { render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
-import { formatDate, getPosts, readingTime } from "../../data/blog";
+import { IMG_VERSION, formatDate, getPosts, readingTime } from "../../data/blog";
 import { ORG_ID, PERSON_ID, WEBSITE_ID, breadcrumbs, webPage } from "../../data/schema";
 import { BUSINESS, SITE_URL } from "../../data/site";
 import { CAL_URL } from "../../config";
@@ -45,7 +45,7 @@ const schema = [
 ];
 ---
 
-<Layout title={`${d.title} · Task GrowthX`} description={d.description} ogType="article" schema={schema} image={d.image} imageAlt={d.imageAlt}>
+<Layout title={`${d.title} · Task GrowthX`} description={d.description} ogType="article" schema={schema} image={d.image && `${d.image}?v=${IMG_VERSION}`} imageAlt={d.imageAlt}>
   <a class="skip" href="#main">Skip to content</a>
   <Header base="/" />
   <main id="main">
@@ -66,7 +66,7 @@ const schema = [
       {d.image && (
         <div class="wrap post-wrap">
           <figure class="post-hero-img">
-            <img src={d.image} alt={d.imageAlt} width="1200" height="630" />
+            <img src={`${d.image}?v=${IMG_VERSION}`} alt={d.imageAlt} width="1200" height="630" fetchpriority="high" />
           </figure>
         </div>
       )}

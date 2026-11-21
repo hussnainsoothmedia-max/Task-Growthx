@@ -1,6 +1,6 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
-import { formatDate, getPosts, readingTime } from "../../data/blog";
+import { IMG_VERSION, formatDate, getPosts, readingTime } from "../../data/blog";
 import { ORG_ID, PERSON_ID } from "../../data/schema";
 import { SITE_URL } from "../../data/site";
 
@@ -37,11 +37,11 @@ const blogSchema = {
         <p class="muted">No posts yet.</p>
       ) : (
         <ul class="post-grid">
-          {posts.map((p) => (
+          {posts.map((p, i) => (
             <li>
               <a class="post-card" href={`/blog/${p.id}/`}>
                 {p.data.image && (
-                  <img class="post-cover" src={p.data.image} alt="" width="1200" height="630" loading="lazy" decoding="async" />
+                  <img class="post-cover" src={`${p.data.image}?v=${IMG_VERSION}`} alt="" width="1200" height="630" loading={i < 2 ? "eager" : "lazy"} decoding="async" />
                 )}
                 <div class="post-meta mono">
                   <time datetime={p.data.date.toISOString()}>{formatDate(p.data.date)}</time>

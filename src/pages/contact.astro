@@ -1,6 +1,31 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import { BUSINESS } from "../data/site";
+import "../styles/contact.css";
+
+const phoneDigits = BUSINESS.phone.replace(/[^\d]/g, "");
+const prettyPhone = BUSINESS.phone.replace(/^\+92(\d{3})(\d{7})$/, "+92 $1 $2");
+const waText = encodeURIComponent("Hi Hussnain, I'd like to talk about automating my clinic.");
+const whatsapp = phoneDigits ? `https://wa.me/${phoneDigits}?text=${waText}` : "";
+const calEmbed = `${BUSINESS.bookingUrl}?embed=true&theme=light&layout=month_view`;
+const location = [BUSINESS.address.city, "Pakistan"].filter(Boolean).join(", ");
+
+const handle = (u: string) => {
+  const path = new URL(u).pathname.replace(/\/$/, "").split("/").pop() ?? "";
+  return path.startsWith("@") ? path : "@" + path;
+};
+const NETWORKS: Record<string, { name: string; icon: string }> = {
+  linkedin: { name: "LinkedIn", icon: "M6.5 9.5v8M6.5 6.5v.01M10.5 17.5v-4.5a2.5 2.5 0 0 1 5 0v4.5M10.5 9.5v8" },
+  instagram: { name: "Instagram", icon: "M7 3.5h10a3.5 3.5 0 0 1 3.5 3.5v10a3.5 3.5 0 0 1-3.5 3.5H7A3.5 3.5 0 0 1 3.5 17V7A3.5 3.5 0 0 1 7 3.5ZM12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM17 7v.01" },
+  youtube: { name: "YouTube", icon: "M3.5 8.5a3 3 0 0 1 3-3h11a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3h-11a3 3 0 0 1-3-3v-7ZM10.5 9.5l4 2.5-4 2.5v-5Z" },
+};
+const net = (u: string) => NETWORKS[new URL(u).hostname.replace(/^www\./, "").split(".")[0]] ?? { name: new URL(u).hostname, icon: "M5 12h14M12 5l7 7-7 7" };
+
+const steps = [
+  { t: "Tell us about your clinic", d: "How patients book today, which software you use, and where the front desk loses time. No preparation needed." },
+  { t: "We map one workflow", d: "Together we pick the task worth automating first and sketch how it would run, step by step." },
+  { t: "You get a clear next step", d: "A fixed scope and price for that first workflow, whether or not you decide to work with us." },
+];
 ---
 
 <PageLayout
@@ -9,38 +34,140 @@ import { BUSINESS } from "../data/site";
   eyebrow="Get in touch"
   path="/contact/"
   type="ContactPage"
-  description="Book a 30-minute discovery call or get in touch directly. We map one clinic workflow worth automating and you leave with a clear next step."
+  showHero={false}
+  description="Book a 30-minute discovery call or message Hussnain Ahmad directly on WhatsApp, phone, LinkedIn, Instagram or YouTube."
 >
-  <section class="section cs-block" aria-labelledby="ct-h">
-    <div class="wrap cs-grid">
-      <div class="cs-side"><h2 class="display-md" id="ct-h">Ways to reach us</h2></div>
-      <div class="cs-main prose">
-        <address class="contact-list">
-          <div>
-            <span class="mono muted">Discovery call</span>
-            <a class="btn btn--primary" href={BUSINESS.bookingUrl}>Book a 30-minute call <span class="arr" aria-hidden="true">&rarr;</span></a>
-          </div>
-          {BUSINESS.email && (
-            <div><span class="mono muted">Email</span><a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a></div>
-          )}
-          {BUSINESS.phone && (
-            <div><span class="mono muted">Phone / WhatsApp</span><a href={`tel:${BUSINESS.phone}`}>{BUSINESS.phone}</a></div>
-          )}
-          {BUSINESS.sameAs.length > 0 && (
-            <div>
-              <span class="mono muted">Profiles</span>
-              <ul>{BUSINESS.sameAs.map((u) => <li><a href={u} rel="me noopener" target="_blank">{u.replace(/^https?:\/\/(www\.)?/, "")}</a></li>)}</ul>
-            </div>
-          )}
-        </address>
-        <h3>What happens on the call</h3>
-        <ul>
-          <li>A 30-minute call, no preparation needed</li>
-          <li>We map one clinic workflow worth automating</li>
-          <li>You leave with a clear next step, whether or not we work together</li>
+  <!-- Hero -->
+  <section class="ct-hero" aria-labelledby="ct-h">
+    <div class="wrap ct-hero-grid">
+      <div class="ct-hero-copy">
+        <a class="cs-back" href="/"><span aria-hidden="true">&larr;</span> Home</a>
+        <span class="eyebrow">Get in touch</span>
+        <h1 class="display-xl" id="ct-h">Let's automate your front desk.</h1>
+        <p class="body-lg muted">Book a free 30-minute call, or message me directly. Tell me how your clinic handles bookings today and we'll find the first workflow worth automating.</p>
+        <div class="cta-row">
+          <a class="btn btn--primary" href="#book">Pick a time <span class="arr" aria-hidden="true">&darr;</span></a>
+          {whatsapp && <a class="btn btn--secondary" href={whatsapp} target="_blank" rel="noopener">Message on WhatsApp</a>}
+        </div>
+        <ul class="ct-points">
+          <li>30-minute video call</li>
+          <li>English or Urdu</li>
+          <li>Clinics worldwide</li>
         </ul>
-        <p class="muted">Area served: {BUSINESS.areaServed}. Calls in English or Urdu.</p>
+      </div>
+
+      <aside class="ct-card" aria-label="Contact card">
+        <div class="ct-card-top">
+          <img src="/images/hussnain.png" alt="Hussnain Ahmad" width="256" height="256" />
+          <div>
+            <p class="ct-card-name">{BUSINESS.founder}</p>
+            <p class="ct-card-role">{BUSINESS.jobTitle} · n8n</p>
+          </div>
+        </div>
+        <dl class="ct-card-list">
+          {location && <div><dt>Based in</dt><dd>{location}</dd></div>}
+          {BUSINESS.phone && <div><dt>Phone</dt><dd><a href={`tel:${BUSINESS.phone}`}>{prettyPhone}</a></dd></div>}
+          {BUSINESS.email && <div><dt>Email</dt><dd><a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a></dd></div>}
+          <div><dt>Works with</dt><dd>Dental clinics</dd></div>
+        </dl>
+        <a class="ct-card-btn" href={BUSINESS.bookingUrl}>Book a discovery call <span class="arr" aria-hidden="true">&rarr;</span></a>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Contact methods -->
+  <section class="ct-methods-wrap" aria-label="Ways to reach us">
+    <div class="wrap">
+      <div class="ct-methods">
+        <a class="ct-method ct-method--primary" href="#book">
+          <span class="ct-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4.5 7.5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2v-10ZM4.5 10h15M8.5 3.5v4M15.5 3.5v4"/></svg></span>
+          <span class="ct-label">Discovery call</span>
+          <span class="ct-value">Book 30 minutes</span>
+          <span class="ct-go" aria-hidden="true">&rarr;</span>
+        </a>
+        {whatsapp && (
+          <a class="ct-method" href={whatsapp} target="_blank" rel="noopener">
+            <span class="ct-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20l1.3-4A8 8 0 1 1 8.2 18.8L4 20ZM9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 1c-1-.5-1.5-1-2-2l1-1-1-2L9 9.5Z"/></svg></span>
+            <span class="ct-label">WhatsApp</span>
+            <span class="ct-value">Send a message</span>
+            <span class="ct-go" aria-hidden="true">&rarr;</span>
+          </a>
+        )}
+        {BUSINESS.phone && (
+          <a class="ct-method" href={`tel:${BUSINESS.phone}`}>
+            <span class="ct-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6.5 4h3l1.5 4-2 1.5a10 10 0 0 0 5.5 5.5L16 13l4 1.5v3a2 2 0 0 1-2 2A15 15 0 0 1 4.5 6a2 2 0 0 1 2-2Z"/></svg></span>
+            <span class="ct-label">Phone</span>
+            <span class="ct-value">{prettyPhone}</span>
+            <span class="ct-go" aria-hidden="true">&rarr;</span>
+          </a>
+        )}
+        {location && (
+          <div class="ct-method ct-method--static">
+            <span class="ct-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-6.5-5.4-6.5-11a6.5 6.5 0 0 1 13 0c0 5.6-6.5 11-6.5 11ZM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/></svg></span>
+            <span class="ct-label">Location</span>
+            <span class="ct-value">{location}</span>
+            <span class="ct-sub">Remote, for clinics anywhere</span>
+          </div>
+        )}
       </div>
     </div>
   </section>
+
+  <!-- Booking -->
+  <section class="section ct-book" id="book" aria-labelledby="book-h">
+    <div class="wrap ct-book-grid">
+      <div class="ct-book-copy">
+        <span class="eyebrow">Discovery call</span>
+        <h2 class="display-md" id="book-h">What happens on the call</h2>
+        <ol class="ct-steps">
+          {steps.map((s) => (
+            <li>
+              <h3>{s.t}</h3>
+              <p>{s.d}</p>
+            </li>
+          ))}
+        </ol>
+        <p class="muted ct-note">Prefer not to book yet? <a href={whatsapp || `tel:${BUSINESS.phone}`}>Send a quick message</a> instead.</p>
+      </div>
+
+      <div class="ct-embed">
+        <div class="ct-embed-bar">
+          <span class="ct-embed-dot" aria-hidden="true"></span>
+          <span>Pick a time that suits you</span>
+          <a href={BUSINESS.bookingUrl} target="_blank" rel="noopener">Open in new tab &nearr;</a>
+        </div>
+        <iframe
+          src={calEmbed}
+          title="Book a discovery call with Hussnain Ahmad on Cal.com"
+          loading="lazy"
+          allow="payment"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Profiles -->
+  {BUSINESS.sameAs.length > 0 && (
+    <section class="section ct-social" aria-labelledby="soc-h" style="padding-top:0">
+      <div class="wrap">
+        <div class="ct-social-head">
+          <h2 class="card-title" id="soc-h">Follow the work</h2>
+          <p class="muted">Behind-the-scenes builds, n8n tips and clinic automation ideas.</p>
+        </div>
+        <div class="ct-social-grid">
+          {BUSINESS.sameAs.map((u) => {
+            const n = net(u);
+            return (
+              <a class="ct-social-card" href={u} target="_blank" rel="me noopener">
+                <span class="ct-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d={n.icon} /></svg></span>
+                <span class="ct-social-name">{n.name}</span>
+                <span class="ct-social-handle">{handle(u)}</span>
+                <span class="ct-go" aria-hidden="true">&nearr;</span>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  )}
 </PageLayout>
