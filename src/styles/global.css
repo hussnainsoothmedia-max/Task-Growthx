@@ -2468,3 +2468,20 @@
     padding-left: 0;
     list-style: none;
   }
+
+  /* Footer brand: icon + name */
+  .foot-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    justify-self: start;
+    color: var(--ink);
+    text-decoration: none;
+    font: 500 22px/1 var(--font-sans);
+    letter-spacing: -0.4px;
+  }
+  .foot-logo img {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }

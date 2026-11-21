@@ -672,8 +672,10 @@ import "./nav.js";
       // Footer wordmark letters rise
       var fw = document.querySelector(".foot-word");
       if (fw) {
+        // Animate the word already in the footer (minus the trailing dot)
+        var word = fw.textContent.trim().replace(/\.$/, "");
         fw.innerHTML =
-          "GrowthX"
+          word
             .split("")
             .map(function (c) {
               return '<span class="ch">' + c + "</span>";
